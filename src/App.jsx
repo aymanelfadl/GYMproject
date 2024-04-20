@@ -1,7 +1,7 @@
 import './App.css'
 import { BrowserRouter , Routes , Route } from 'react-router-dom'
 import LoginForm from './components/login/LoginForm'
-import Home from './components/HomePage/Home'
+import Home from './components/HomePage/HomePage'
 import ProgressBar from './components/HomePage/ProgressBar'
 
 
@@ -13,7 +13,8 @@ function App() {
       <Routes>
         <Route path='/' element={<LoginForm />}/>
           <Route path='home' element={<Home />} />
-          <Route path='test' element={<ProgressBar />} />
+          <Route path='test' element={<Home />} />
+          <Route path='add' element={<Home />} />
       </Routes>
     </BrowserRouter>
   )
