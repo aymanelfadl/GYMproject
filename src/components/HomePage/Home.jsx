@@ -1,24 +1,22 @@
 import Dashboard from "./Dashboard";
 import Header from "./Header";
 
-
-
 const Home = () => {
-    
-
-    return(
-        <div class="flex flex-col h-screen">
+    return (
+        <div className="flex flex-col h-screen">
             <Header/>
-            <div class="flex flex-1">
-                <div class="bg-slate-50 w-1/5">
+            <div className="flex flex-1 overflow-hidden">
+                {/* Left sidebar */}
+                <div className="bg-slate-50 w-1/5 overflow-y-auto">
                     {/* Future Menu */}
                 </div>
-                <div class="flex-1">
+                {/* Dashboard area */}
+                <div className="flex-1 overflow-y-auto">
                     <Dashboard />
                 </div>
             </div>
         </div>
-    
-    )
-}
+    );
+};
+
 export default Home;

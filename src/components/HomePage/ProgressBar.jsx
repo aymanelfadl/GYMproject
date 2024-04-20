@@ -16,7 +16,7 @@ const ProgressBar = ({ data, total, Date, IconLogo, MiniLogo, hasRedBorder }) =>
         backgroundColor: 'white',
         borderRadius: '100px',
         boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)',
-        border: hasRedBorder ? '&px solid red' : 'none' 
+        border: hasRedBorder ? '1px solid red' : '1px solid gray' 
     };
 
     return (

@@ -11,6 +11,7 @@ import { useState } from "react";
 import ProgressBar from "./ProgressBar";
 
 const Dashboard = () => {
+
     const [totalIncome, setTotolIncome] = useState(0);
     const [totaleUsers, setTotaleUSers] = useState(0);
 
