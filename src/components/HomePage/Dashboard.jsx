@@ -46,22 +46,22 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-center items-center h-1/2 rounded-lg mb-10 shadow-xl">
-                        <div className="flex flex-col w-full">
+                    <div className="flex justify-center self-center mt-10 items-center w-3/4 rounded-lg mb-10 shadow-xl">
+                        <div className="flex flex-col w-full h-full">
                             <div className="flex flex-row items-center justify-between">
                                 <div className="flex-grow h-1 bg-blue-600 ml-6 mr-2 mt-4 rounded-lg  shadow-xl"/>
                                 <div className="ml-auto text-3xl font-black text-blue-700 p-2 mt-3 mr-4">
                                     <h1>المداخيل</h1>
                                 </div>
                             </div>
-                            <div className="flex flex-col">
-                                <div className="flex flex-row my-4">
+                            <div className="flex flex-col px-4" style={{borderRadius: 100}}>
+                                <div>
                                     <ProgressBar data={100} total={100} IconLogo={DayLogo} Date={"هذا اليوم"}/>
                                 </div>
-                                <div className="flex flex-row my-4">
+                                <div>
                                     <ProgressBar data={50} total={100} IconLogo={WeekLogo} Date={"هذا الأسبوع"}/>
                                 </div>
-                                <div className="flex flex-row my-4">
+                                <div className="mb-8">
                                     <ProgressBar data={20} total={100} IconLogo={MonthLogo} Date={"هذا الشهر"}/>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-center items-center h-1/2 rounded-lg mb-10 shadow-xl">
+                    <div className="flex justify-center self-center items-center w-3/4 rounded-lg mb-10 shadow-xl">
                         <div className="flex flex-col w-full">
                             <div className="flex flex-row items-center justify-between">
                                 <div className="flex-grow h-1 bg-blue-600 ml-6 mr-2 mt-4 rounded-lg  shadow-xl"/>
@@ -97,18 +97,18 @@ const Dashboard = () => {
                                     <h1>العملاء</h1>
                                 </div>
                             </div>
-                            <div className="flex flex-col">
-                                <div className="flex flex-row my-2">
-                                    <ProgressBar data={100} total={100} Date={"العملاء بدون دفع"} MiniLogo={NoMoneyLogo}/>
+                            <div className="flex flex-col px-4" style={{borderRadius: 100}}>
+                                <div>
+                                    <ProgressBar data={0} total={100} Date={"العملاء بدون دفع"} MiniLogo={NoMoneyLogo} hasRedBorder={true}/>
                                 </div>
-                                <div className="flex flex-row my-2">
+                                <div>
                                     <ProgressBar data={50} total={100}  Date={"عملاء اليوم"} MiniLogo={UserCountLogo}/>
                                 </div>
-                                <div className="flex flex-row my-2">
+                                <div >
                                     <ProgressBar data={20} total={100}  Date={"عملاء الأسبوع"} MiniLogo={UserCountLogo}/>
                                 </div>
-                                <div className="flex flex-row my-2">
-                                    <ProgressBar data={20} total={100}  Date={"عملاءالشهر"} MiniLogo={UserCountLogo}/>
+                                <div className="mb-8">
+                                    <ProgressBar data={40} total={100}  Date={"عملاءالشهر"} MiniLogo={UserCountLogo}/>
                                 </div>
                             </div>
                         </div>
