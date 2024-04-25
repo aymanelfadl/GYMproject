@@ -18,9 +18,9 @@ const NavBar = () => {
                     <img src={location.pathname === "/home" ? AnalyseLogo : AnalyseLogoBlue} alt="logo" className="w-8 h-8" />
                     <div className={`text-xl font-bold ${location.pathname === "/home" ? 'text-white' : 'text-blue-500'}`}>لوحة القيادة</div>
                 </NavLink>
-                <NavLink to="/test" className={`flex flex-row items-center px-4 justify-between h-16 ${location.pathname === '/test' ? 'bg-blue-600 hover:text-white' : 'bg-slate-50 hover:bg-blue-100'}`}>
-                    <img src={location.pathname === "/test" ?  AddUserLogoBlue : AddUserLogo } alt="logo" className="w-8 h-8" />
-                    <div className={`text-xl font-bold ${location.pathname === "/test" ? 'text-white' : 'text-blue-500'}`}>الأعضاء</div>
+                <NavLink to="/members" className={`flex flex-row items-center px-4 justify-between h-16 ${location.pathname === '/members' ? 'bg-blue-600 hover:text-white' : 'bg-slate-50 hover:bg-blue-100'}`}>
+                    <img src={location.pathname === "/members" ?  AddUserLogoBlue : AddUserLogo } alt="logo" className="w-8 h-8" />
+                    <div className={`text-xl font-bold ${location.pathname === "/members" ? 'text-white' : 'text-blue-500'}`}>الأعضاء</div>
                 </NavLink>
                 <NavLink to="/add" className={`flex flex-row items-center px-4 justify-between h-16 ${location.pathname === '/add' ? 'bg-blue-600 hover:text-white' : 'bg-slate-50 hover:bg-blue-100'}`}>
                     <img src={location.pathname === "/add" ? MembersLogo : MembersLogoBlue} alt="logo" className="w-8 h-8" />
