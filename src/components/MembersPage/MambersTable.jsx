@@ -8,7 +8,7 @@ const MembersTable = () => {
             last_name: "Moore",
             date_birth: "1995-12-06",
             phone_number: "+18725704496",
-            end_date: "2023-07-07",
+            end_date: "2025-07-07",
             picture_file: AvatareLogo,
             created_at: "2024-04-18T11:06:24.000000Z",
             updated_at: "2024-04-18T11:06:24.000000Z",
@@ -20,7 +20,7 @@ const MembersTable = () => {
             last_name: "Stracke",
             date_birth: "1997-07-23",
             phone_number: "+13049533537",
-            end_date: "2023-05-25",
+            end_date: "2024-05-25",
             picture_file: "https://via.placeholder.com/640x480.png/005511?text=iusto",
             created_at: "2024-04-18T11:08:24.000000Z",
             updated_at: "2024-04-18T11:08:24.000000Z",
@@ -44,7 +44,7 @@ const MembersTable = () => {
             last_name: "Stracke",
             date_birth: "1997-07-23",
             phone_number: "+13049533537",
-            end_date: "2023-05-25",
+            end_date: "2024-05-25",
             picture_file: "https://via.placeholder.com/640x480.png/005511?text=iusto",
             created_at: "2024-04-18T11:08:24.000000Z",
             updated_at: "2024-04-18T11:08:24.000000Z",
@@ -56,7 +56,7 @@ const MembersTable = () => {
             last_name: "Stracke",
             date_birth: "1997-07-23",
             phone_number: "+13049533537",
-            end_date: "2023-05-25",
+            end_date: "2024-05-25",
             picture_file: "https://via.placeholder.com/640x480.png/005511?text=iusto",
             created_at: "2024-04-18T11:08:24.000000Z",
             updated_at: "2024-04-18T11:08:24.000000Z",
@@ -68,19 +68,7 @@ const MembersTable = () => {
             last_name: "Stracke",
             date_birth: "1997-07-23",
             phone_number: "+13049533537",
-            end_date: "2023-05-25",
-            picture_file: "https://via.placeholder.com/640x480.png/005511?text=iusto",
-            created_at: "2024-04-18T11:08:24.000000Z",
-            updated_at: "2024-04-18T11:08:24.000000Z",
-            active: 1
-        },
-        {
-            id: 17,
-            first_name: "Joshua",
-            last_name: "Stracke",
-            date_birth: "1997-07-23",
-            phone_number: "+13049533537",
-            end_date: "2023-05-25",
+            end_date: "2024-05-25",
             picture_file: "https://via.placeholder.com/640x480.png/005511?text=iusto",
             created_at: "2024-04-18T11:08:24.000000Z",
             updated_at: "2024-04-18T11:08:24.000000Z",
@@ -114,24 +102,27 @@ const MembersTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((item) => (
-                        <tr key={item.id}>
-                            <td className="border-y-2 border-gray-200 px-4 py-2">
-                                <img src={item.picture_file} alt="pic" className="w-16 h-16 object-cover rounded-full mx-auto" />
-                            </td>
-                            <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">{item.first_name} {item.last_name}</td>
-                            <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">{calculateAge(item.date_birth)}</td>
-                            <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">{item.phone_number}</td>
-                            <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">{item.end_date}</td>
-                            <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">
-                                <div className="w-full flex justify-center items-center bg-blue-600 py-1 shadow-lg">
-                                    <button className="text-white font-bold">تعديل</button>
-                                    <FaExternalLinkAlt style={{ marginLeft: "10px",marginTop:"2px", color:"white" }} />
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
+                    {data
+                        .filter(item => item.active === 1)
+                        .map((item) => (
+                            <tr key={item.id} className={new Date(item.end_date) < new Date() ? 'bg-red-200' : ''}>
+                                <td className="border-y-2 border-gray-200 px-4 py-2">
+                                    <img src={item.picture_file} alt="pic" className="w-16 h-16 object-cover rounded-full mx-auto" />
+                                </td>
+                                <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">{item.first_name} {item.last_name}</td>
+                                <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">{calculateAge(item.date_birth)}</td>
+                                <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">{item.phone_number}</td>
+                                <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">{item.end_date}</td>
+                                <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">
+                                    <div className="w-full flex justify-center items-center bg-blue-600 py-1 shadow-lg">
+                                        <button className="text-white font-bold">تعديل</button>
+                                        <FaExternalLinkAlt style={{ marginLeft: "10px", marginTop: "2px", color: "white" }} />
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
                 </tbody>
+
             </table>
 
         </div>
