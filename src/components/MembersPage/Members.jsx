@@ -78,6 +78,13 @@ const Home = () => {
 		const handleSelectingUser = (selectedUser) =>{
 			setSelectedUserData(selectedUser);
 		}
+
+		const handleUserEditing = () =>{
+			data.filter((user) => {
+				user.id === selectedUserData.id 
+			})
+		}
+
     return (
         <div className="flex flex-col h-screen">
             <Header/>
@@ -110,9 +117,10 @@ const Home = () => {
                         </div>
                     </div>
                     <div>
-                        <MambersTable data={data} searchTerm={searchTerm} onEditUser={handleSelectingUser} />
 
-												{selectedUserData && <EditUserModal onClose={()=>setSelectedUserData(null)} /> }
+                        <MambersTable data={data} searchTerm={searchTerm} onEditUser={handleSelectingUser} />
+												{selectedUserData && <EditUserModal onClose={()=>setSelectedUserData(null)} userData={selectedUserData} /> }
+
                     </div>
                 </div>
             </div>

@@ -1,66 +1,82 @@
+import { useState } from "react";
 import logotest from "../../assets/coin.png";
 
+const EditUserModal = ({ onClose, userData, onEditUser }) => {
 
-const EditUserModal = ({onClose}) => {
-
-    return (
-        <div className="fixed z-10 inset-0 overflow-y-auto">
-            <div className="flex items-center justify-center min-h-screen px-4">
-                <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-                    <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-                </div>
-
-                <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
-                    <div className="px-6 py-4">
-                        <div className="flex justify-end items-center mb-4">
-                            <button className="text-gray-500 hover:text-gray-700" aria-label="Close modal" onClick={onClose}>
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                            </button>
-                        </div>
-                        <div className="relative w-32 h-32 mx-auto mb-4 group">
-                            <img src={logotest} alt="" className="w-full h-full rounded-full cursor-pointer" />
-                            <div className="absolute top-10 right-10 flex items-center justify-center w-10 h-10 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-                                <svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 16C13.6569 16 15 14.6569 15 13C15 11.3431 13.6569 10 12 10C10.3431 10 9 11.3431 9 13C9 14.6569 10.3431 16 12 16Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M3 16.8V9.2C3 8.0799 3 7.51984 3.21799 7.09202C3.40973 6.71569 3.71569 6.40973 4.09202 6.21799C4.51984 6 5.0799 6 6.2 6H7.25464C7.37758 6 7.43905 6 7.49576 5.9935C7.79166 5.95961 8.05705 5.79559 8.21969 5.54609C8.25086 5.49827 8.27836 5.44328 8.33333 5.33333C8.44329 5.11342 8.49827 5.00346 8.56062 4.90782C8.8859 4.40882 9.41668 4.08078 10.0085 4.01299C10.1219 4 10.2448 4 10.4907 4H13.5093C13.7552 4 13.8781 4 13.9915 4.01299C14.5833 4.08078 15.1141 4.40882 15.4394 4.90782C15.5017 5.00345 15.5567 5.11345 15.6667 5.33333C15.7216 5.44329 15.7491 5.49827 15.7803 5.54609C15.943 5.79559 16.2083 5.95961 16.5042 5.9935C16.561 6 16.6224 6 16.7454 6H17.8C18.9201 6 19.4802 6 19.908 6.21799C20.2843 6.40973 20.5903 6.71569 20.782 7.09202C21 7.51984 21 8.0799 21 9.2V16.8C21 17.9201 21 18.4802 20.782 18.908C20.5903 19.2843 20.2843 19.5903 19.908 19.782C19.4802 20 18.9201 20 17.8 20H6.2C5.0799 20 4.51984 20 4.09202 19.782C3.71569 19.5903 3.40973 19.2843 3.21799 18.908C3 18.4802 3 17.9201 3 16.8Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                        </div>
+    const [userEdit , setUserEdit] = useState(userData);
 
 
-                        <div className="space-y-4">
-                            <div className="flex items-center justify-between mx-12 py-4">
-                                <input type="text" className="border border-salte-400 rounded-md px-3 py-2 text-right" placeholder="الاسم الكامل"/>
-                                <label className="text-lg font-bold text-blue-800">الاسم الكامل</label>
-                            </div>
-                            <div className="flex items-center justify-between mx-12">
-                                <input type="date" className="border border-gray-300 rounded-md px-3 py-2" placeholder="تاريخ الميلاد" />
-                                <label className="text-lg font-bold text-blue-800">تاريخ الميلاد</label>
-                            </div>
-                            <div className="flex items-center justify-between mx-12">
-                                <input type="text" className="border border-gray-300 rounded-md px-3 py-2 text-right" placeholder="رقم الهاتف" />
-                                <label className="text-lg font-bold text-blue-800">رقم الهاتف</label>
-                            </div>
-                            <div className="flex items-center justify-between mx-12">
-                                <input type="text" className="border border-gray-300 rounded-md px-3 py-2 text-right" placeholder="اشتراك جديد" />
-                                <label className="text-lg font-bold text-blue-800">اشتراك جديد</label>
-                            </div>
-                            <div className="flex items-center justify-between mx-12">
-                                <input type="date" className="border border-gray-300 rounded-md px-3 py-2 text-right" placeholder="تاريخ انتهاء العضوية"/>
-                                <label className="text-lg font-bold text-blue-800">تاريخ انتهاء العضوية</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="px-6 py-4 bg-gray-100 flex justify-center">
-                        <button className="text-white bg-red-500 hover:bg-red-800 px-4 py-2 rounded-full mx-12">انهاء العضوية</button>
-                        <button className="text-white bg-blue-500 hover:bg-blue-800 px-4 py-2 rounded-full mx-12">تعديل</button>
-                    </div>
-                </div>
-            </div>
+
+  return (
+    <div className="fixed z-10 inset-0 overflow-y-auto">
+      <div className="flex items-center justify-center min-h-screen px-4">
+        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
-    );
+
+        <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+          <div className="px-6">
+            <div className="flex justify-end items-center pt-4">
+              <button
+                className="text-right text-gray-500 hover:text-gray-700"
+                aria-label="Close modal"
+                onClick={onClose}
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div className="relative w-full md:w-3/12  mx-auto mb-4 group border-2 border-blue-200 rounded-full" onClick={() => console.log("ayman")}>
+                <img src={logotest} alt="logo" className="w-full h-full rounded-full cursor-pointer group-hover:blur boder-4 border-black" />
+                <div className="absolute top-9 right-9 flex items-center justify-center rounded-full w-10 h-10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 50 50">
+                    <path d="M 14 4 C 8.4886661 4 4 8.4886661 4 14 L 4 36 C 4 41.511334 8.4886661 46 14 46 L 36 46 C 41.511334 46 46 41.511334 46 36 L 46 14 C 46 8.4886661 41.511334 4 36 4 L 14 4 z M 14 6 L 36 6 C 40.430666 6 44 9.5693339 44 14 L 44 36 C 44 40.430666 40.430666 44 36 44 L 14 44 C 9.5693339 44 6 40.430666 6 36 L 6 14 C 6 9.5693339 9.5693339 6 14 6 z M 21.132812 12 C 20.079884 12 19.101556 12.55485 18.560547 13.457031 L 16.724609 16.513672 C 16.542289 16.815645 16.218154 17 15.867188 17 L 11 17 C 9.9069372 17 9 17.906937 9 19 L 9 35 C 9 36.093063 9.9069372 37 11 37 L 39 37 C 40.093063 37 41 36.093063 41 35 L 41 19 C 41 17.906937 40.093063 17 39 17 L 34.132812 17 C 33.779742 17 33.456382 16.817444 33.275391 16.515625 A 1.0001 1.0001 0 0 0 33.275391 16.513672 L 31.439453 13.457031 C 30.898444 12.55485 29.919615 12 28.867188 12 L 21.132812 12 z M 12 14 C 11.448 14 11 14.448 11 15 L 11 16 L 15 16 L 15 15 C 15 14.448 14.552 14 14 14 L 12 14 z M 21.132812 14 L 28.867188 14 C 29.21876 14 29.543618 14.182556 29.724609 14.484375 A 1.0001 1.0001 0 0 0 29.724609 14.486328 L 31.558594 17.542969 C 32.099603 18.445103 33.079884 19 34.132812 19 L 39 19 L 39 35 L 11 35 L 11 19 L 15.867188 19 C 16.919615 19 17.897599 18.446016 18.439453 17.544922 A 1.0001 1.0001 0 0 0 18.441406 17.542969 L 20.275391 14.486328 A 1.0001 1.0001 0 0 0 20.275391 14.484375 C 20.456335 14.18265 20.779742 14 21.132812 14 z M 25 20 C 21.145849 20 18 23.145852 18 27 C 18 30.854148 21.145849 34 25 34 C 28.854151 34 32 30.854148 32 27 C 32 23.145852 28.854151 20 25 20 z M 34 20 A 1 1 0 0 0 34 22 A 1 1 0 0 0 34 20 z M 25 22 C 27.773271 22 30 24.226731 30 27 C 30 29.773269 27.773271 32 25 32 C 22.226729 32 20 29.773269 20 27 C 20 24.226731 22.226729 22 25 22 z"></path>
+                    </svg>
+                </div>  
+            </div>
+            <div className="space-y-4 bg-slate-50 shadow-lg mb-6 py-4 rounded-xl">
+              <div className="flex items-center justify-between mx-12">
+                <input type="text" className="border border-salte-400  outline-blue-600  rounded-md px-3 py-2 text-right w-3/5" placeholder="الاسم الكامل" value={userData.first_name + " " + userData.last_name} onChange={ (e)=> setUserEdit({ ...userEdit, [e.target.name]: e.target.value })} />
+                <label className="text-lg font-bold text-blue-600">الاسم الكامل</label>
+              </div>
+              <div className="flex items-center justify-between mx-12">
+                <input type="date" className="border border-gray-300   outline-blue-600 rounded-md px-3 py-2 w-3/5" placeholder="تاريخ الميلاد" value={userData.date_birth} onChange={ (e)=> setUserEdit({ ...userEdit, [e.target.name]: e.target.value })}/>
+                <label className="text-lg font-bold text-blue-600">تاريخ الميلاد</label>
+              </div>
+              <div className="flex items-center justify-between mx-12">
+                <input type="text" className="border border-gray-300   outline-blue-600  rounded-md px-3 py-2 text-right w-3/5" placeholder="رقم الهاتف" value={userData.phone_number} onChange={ (e)=> setUserEdit({ ...userEdit, [e.target.name]: e.target.value })}/>
+                <label className="text-lg font-bold text-blue-600">رقم الهاتف</label>
+              </div>
+              <div className="flex items-center justify-between mx-12">
+                <input type="text" className="border border-gray-300  outline-blue-600 rounded-md px-3 py-2 text-right w-3/5" placeholder="المبلغ االمؤدى من طرف زبون" value="" onChange={ (e)=> setUserEdit({ ...userEdit, [e.target.name]: e.target.value })} />
+                <label className="text-lg font-bold text-blue-600">اشتراك جديد</label>
+              </div>
+              <div className="flex items-center justify-between mx-12">
+                <input type="date" className="border border-gray-300 outline-blue-600   rounded-md px-3 py-2 w-3/5" placeholder="تاريخ انتهاء العضوية" value={userData.end_date} onChange={ (e)=> setUserEdit({ ...userEdit, [e.target.name]: e.target.value })}/>
+                <label className="text-lg font-bold text-blue-600"> انتهاءالعضوية</label>
+              </div>
+            </div>
+          </div>
+          <div className="px-6 py-4 bg-gray-100 flex justify-center ">
+            <button className="text-white w-1/2 bg-red-500 hover:bg-red-800 px-4 py-2 rounded-full mx-10">انهاء العضوية</button>
+            <button className="text-white w-1/2 bg-blue-500 hover:bg-blue-800 px-4 py-2 rounded-full mx-10">حفظ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default EditUserModal;
