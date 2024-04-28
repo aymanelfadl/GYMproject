@@ -57,6 +57,18 @@ const Home = () => {
           created_at: "2024-04-18T11:08:24.000000Z",
           updated_at: "2024-04-18T11:08:24.000000Z",
           active: 1
+        },
+        {
+        	id: 4,
+          first_name: "John",
+          last_name: "Doe",
+          date_birth: "1990-05-15",
+          phone_number: "+1234567890",
+          end_date: "2025-12-31",
+          picture_file: AvatareLogo,
+          created_at: "2024-04-18T11:06:24.000000Z",
+          updated_at: "2024-04-18T11:06:24.000000Z",
+          active: 1
         }
       ];
     const [searchTerm, setSearchTerm] =useState("");
