@@ -10,7 +10,7 @@ import EditUserModal from "./EditUserModal";
 
 const Home = () => {
 
-    const data = [
+    const [data,setData] = useState([
         {
           id: 1,
           first_name: "John",
@@ -71,7 +71,7 @@ const Home = () => {
           updated_at: "2024-04-18T11:06:24.000000Z",
           active: 1
         }
-      ];
+      ]);
     const [searchTerm, setSearchTerm] =useState("");
 		const [selectedUserData, setSelectedUserData] = useState(null);
 
@@ -79,12 +79,25 @@ const Home = () => {
 			setSelectedUserData(selectedUser);
 		}
 
-		const handleUserEditing = () =>{
-			data.filter((user) => {
-				user.id === selectedUserData.id 
-			})
-		}
-
+    const handleEditUser = (userEdit) => {
+      const index = data.findIndex((user) => user.id === selectedUserData.id);
+      if (index !== -1) {
+        const newData = [...data]; 
+        newData[index] = userEdit; 
+        setData(newData);
+        setSelectedUserData(null); 
+      }
+    };
+    const handleEndUser = () => {
+      const index = data.findIndex((user) => user.id === selectedUserData.id);
+      if (index !== -1) {
+        const newData = [...data]; 
+        newData[index].active = 0; 
+        setData(newData); 
+        setSelectedUserData(null);
+      }
+    };
+    
     return (
         <div className="flex flex-col h-screen">
             <Header/>
@@ -119,7 +132,7 @@ const Home = () => {
                     <div>
 
                         <MambersTable data={data} searchTerm={searchTerm} onEditUser={handleSelectingUser} />
-												{selectedUserData && <EditUserModal onClose={()=>setSelectedUserData(null)} userData={selectedUserData} /> }
+												{selectedUserData && <EditUserModal onClose={()=>setSelectedUserData(null)} userData={selectedUserData} onEditUser={handleEditUser} onEndUser={handleEndUser} /> }
 
                     </div>
                 </div>
