@@ -4,7 +4,8 @@ import MambersTable from "./MambersTable";
 import MembersLogo from "../../assets/equipeWithe.png"
 import AvatareLogo from "../../assets/woman.png"
 import "./Mambers.css"
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import EditUserModal from "./EditUserModal";
 
 
 const Home = () => {
@@ -47,7 +48,7 @@ const Home = () => {
           active: 1
         },
         {
-          id: 4,
+          id: 10,
           first_name: "Michael",
           last_name: "Brown",
           date_birth: "1980-11-05",
@@ -72,7 +73,11 @@ const Home = () => {
         }
       ];
     const [searchTerm, setSearchTerm] =useState("");
+		const [selectedUserData, setSelectedUserData] = useState(null);
 
+		const handleSelectingUser = (selectedUser) =>{
+			setSelectedUserData(selectedUser);
+		}
     return (
         <div className="flex flex-col h-screen">
             <Header/>
@@ -104,9 +109,10 @@ const Home = () => {
                             </select>
                         </div>
                     </div>
-                    
                     <div>
-                        <MambersTable data={data} searchTerm={searchTerm}/>
+                        <MambersTable data={data} searchTerm={searchTerm} onEditUser={handleSelectingUser} />
+
+												{selectedUserData && <EditUserModal onClose={()=>setSelectedUserData(null)} /> }
                     </div>
                 </div>
             </div>

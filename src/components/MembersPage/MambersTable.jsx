@@ -1,6 +1,6 @@
 import { FaExternalLinkAlt } from "react-icons/fa";
 
-const MembersTable = ({ data, searchTerm }) => {
+const MembersTable = ({ data, searchTerm, onEditUser}) => {
     function calculateAge(dateOfBirthString) {
         const dateOfBirth = new Date(dateOfBirthString);
         const currentDate = new Date();
@@ -46,7 +46,7 @@ const MembersTable = ({ data, searchTerm }) => {
                                 <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">{item.phone_number}</td>
                                 <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">{item.end_date}</td>
                                 <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">
-                                    <button className="w-full flex justify-center items-center bg-blue-600 py-1 shadow-lg">
+                                    <button className="w-full flex justify-center items-center bg-blue-600 py-1 shadow-lg" onClick={() => onEditUser(item)} >
                                         <h2  className="text-white font-bold">تعديل</h2>
                                         <FaExternalLinkAlt style={{ marginLeft: "10px", marginTop: "2px", color: "white" }} />
                                     </button>
