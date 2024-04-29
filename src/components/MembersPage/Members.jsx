@@ -4,7 +4,7 @@ import MambersTable from "./MambersTable";
 import MembersLogo from "../../assets/equipeWithe.png";
 import AvatareLogo from "../../assets/woman.png";
 import "./Mambers.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import EditUserModal from "./EditUserModal";
 
 const Home = () => {
@@ -18,8 +18,8 @@ const Home = () => {
       phone_number: "+1234567890",
       end_date: "2025-12-31",
       picture_file: AvatareLogo,
-      created_at: "2024-01-18T11:06:24.000000Z",
-      updated_at: "2024-04-18T11:06:24.000000Z",
+      created_at: "2024-04-1T11:06:24.000Z", // Today
+      updated_at: "2024-04-18T11:06:24.000Z",
       active: 1
     },
     {
@@ -30,8 +30,8 @@ const Home = () => {
       phone_number: "+1987654321",
       end_date: "2024-04-15",
       picture_file: AvatareLogo,
-      created_at: "2024-04-29T11:08:24.000000Z",
-      updated_at: "2024-04-18T11:08:24.000000Z",
+      created_at: "2024-04-25T11:08:24.000Z", // Within one week
+      updated_at: "2024-04-18T11:08:24.000Z",
       active: 1
     },
     {
@@ -42,33 +42,81 @@ const Home = () => {
       phone_number: "+1122334455",
       end_date: "2024-08-29",
       picture_file: AvatareLogo,
-      created_at: "2024-04-20T11:08:24.000000Z",
-      updated_at: "2024-04-18T11:08:24.000000Z",
+      created_at: "2024-03-01T11:08:24.000Z", // Within one month
+      updated_at: "2024-04-18T11:08:24.000Z",
       active: 1
     },
     {
-      id: 10,
-      first_name: "Michael",
-      last_name: "Brown",
-      date_birth: "1980-11-05",
-      phone_number: "+1654321876",
-      end_date: "2022-09-30",
+      id: 5,
+      first_name: "Sophia",
+      last_name: "Garcia",
+      date_birth: "1991-07-20",
+      phone_number: "+1231231234",
+      end_date: "2023-05-10",
       picture_file: AvatareLogo,
-      created_at: "2024-04-18T11:08:24.000000Z",
-      updated_at: "2024-04-18T11:08:24.000000Z",
+      created_at: "2023-04-01T11:08:24.000Z", // More than one month ago
+      updated_at: "2024-04-18T11:08:24.000Z",
       active: 0
     },
     {
-      id: 4,
-      first_name: "John",
-      last_name: "Doe",
-      date_birth: "1990-05-15",
-      phone_number: "+1234567890",
-      end_date: "2025-12-31",
+      id: 6,
+      first_name: "Ethan",
+      last_name: "Miller",
+      date_birth: "1988-03-28",
+      phone_number: "+9876543210",
+      end_date: "2024-11-15",
       picture_file: AvatareLogo,
-      created_at: "2024-04-18T11:06:24.000000Z",
-      updated_at: "2024-04-18T11:06:24.000000Z",
+      created_at: "2023-11-01T11:08:24.000Z", // More than one month ago
+      updated_at: "2024-04-18T11:08:24.000Z",
       active: 0
+    },
+    {
+      id: 7,
+      first_name: "Olivia",
+      last_name: "Brown",
+      date_birth: "1995-12-10",
+      phone_number: "+1122334455",
+      end_date: "2024-07-02",
+      picture_file: AvatareLogo,
+      created_at: "2022-03-10T11:08:24.000Z", // More than one month ago
+      updated_at: "2024-04-18T11:08:24.000Z",
+      active: 0
+    },
+    {
+      id: 8,
+      first_name: "Liam",
+      last_name: "Taylor",
+      date_birth: "1983-09-18",
+      phone_number: "+9998887776",
+      end_date: "2023-04-25",
+      picture_file: AvatareLogo,
+      created_at: "2024-04-29T11:08:24.000Z", // Today
+      updated_at: "2024-04-18T11:08:24.000Z",
+      active: 1
+    },
+    {
+      id: 9,
+      first_name: "Ava",
+      last_name: "Clark",
+      date_birth: "1992-01-30",
+      phone_number: "+4567891230",
+      end_date: "2022-10-20",
+      picture_file: AvatareLogo,
+      created_at: "2024-03-01T11:08:24.000Z", // More than one month ago
+      updated_at: "2024-04-18T11:08:24.000Z",
+      active: 1// Membership ended
+    },
+    {
+      id: 10,
+      first_name: "Noah",
+      last_name: "Wilson",
+      date_birth: "1987-06-12",
+      phone_number: "+9876543210",
+      end_date: "2025-08-20",
+      picture_file: AvatareLogo,
+      created_at: "2024-04-25T11:08:24.000Z", 
+      updated_at: "2024-04-18T11:08:24.000Z",
+      active: 1
     }
   ]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -106,39 +154,48 @@ const Home = () => {
       case "today":
         filteredData = filteredData.filter((user) => {
           const today = new Date().toISOString().split('T')[0];
-          return user.created_at === today;
+          const userDate = user.created_at.split('T')[0];
+          console.log("Today:", today);
+          console.log("User created_at:", userDate);
+          return user.active === 1 && userDate === today;
         });
-        break;
+        break;      
       case "one_week":
-        filteredData = filteredData.filter((user) => {
-          const today = new Date();
-          const oneWeekLater = new Date(today);
-          oneWeekLater.setDate(oneWeekLater.getDate() + 7);
-          return user.created_at <= oneWeekLater.toISOString().split('T')[0];
-        });
+          filteredData = filteredData.filter((user) => {
+            const today = new Date().toISOString().split('T')[0];
+            const oneWeekLater = new Date(today);
+            oneWeekLater.setDate(oneWeekLater.getDate() - 7);
+            const finalDate = oneWeekLater.toISOString().split('T')[0];
+            const userDate = user.created_at.split('T')[0]; 
+            return user.active === 1 && finalDate <= userDate && userDate <= today; 
+          });
         break;
       case "one_month":
-        filteredData = filteredData.filter((user) => {
-          const today = new Date();
-          const oneMonthLater = new Date(today);
-          oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
-          return user.created_at <= oneMonthLater.toISOString().split('T')[0];
-        });
-        break;
+          filteredData = filteredData.filter((user) => {
+            const today = new Date().toISOString().split('T')[0]; 
+            const oneMonthLater = new Date(today); 
+            oneMonthLater.setMonth(oneMonthLater.getMonth() - 1); 
+            const finaleDate = oneMonthLater.toISOString().split('T')[0]; 
+            const userDate = user.created_at.split('T')[0];
+            return user.active === 1 && finaleDate <= userDate && finaleDate <= today;
+          });
+          break;     
       case "need_to_pay":
         filteredData = filteredData.filter((user) => {
           const today = new Date().toISOString().split('T')[0];
-          return user.end_date < today;
+          return user.active === 1 && user.end_date < today;
         });
         break;
       case "end_date":    
-        filteredData = filteredData.filter((user) => { return user.active === 0 });
+        filteredData = filteredData.filter((user) => user.active === 0);
         break;
-        default:
-        return data;
-      }
+      default:
+        filteredData = filteredData.filter((user) => user.active === 1);
+    }
+    
     return filteredData;
   };
+  
   
 
   return (
@@ -190,8 +247,8 @@ const Home = () => {
                 <option value="today">اليوم</option>
                 <option value="one_week">اسبوع واحد</option>
                 <option value="one_month">شهر واحد</option>
-                <option value="need_to_pay">الناس الذين يحتاجون إلى الدفع</option>
-                <option value="end_date">الأشخاص الذين أنهوا موعدهم</option>
+                <option value="need_to_pay">الأعضاء الذين يحتاجون إلى الدفع</option>
+                <option value="end_date">الأعضاء الذين انتهت عضويتهم</option>
               </select>
             </div>
           </div>

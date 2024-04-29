@@ -13,12 +13,7 @@ const MembersTable = ({ data, searchTerm, onEditUser }) => {
         return age;
     }
 
-    const filteredData = data.filter(
-        (item) =>
-            item.active === 1 &&
-            (item.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                item.last_name.toLowerCase().includes(searchTerm.toLowerCase()))
-    );
+    const filteredData = data.filter((item) => (item.first_name.toLowerCase().includes(searchTerm.toLowerCase()) || item.last_name.toLowerCase().includes(searchTerm.toLowerCase())));
 
     return (
         <div className="w-full flex justify-center">
