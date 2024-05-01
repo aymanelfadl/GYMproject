@@ -32,7 +32,7 @@ const LoginForm = () => {
   return (
     <div className="flex flex-row">
       <div className="blue-bg">
-        <div className="flex flex-col items-center justify-center my-20  ">
+        <div className="flex flex-col items-center justify-center my-20">
         <div className="text-white text-3xl font-black text-cenater mb-10">
             <h1> Fitflex مرحبا بك في </h1>
           </div>
