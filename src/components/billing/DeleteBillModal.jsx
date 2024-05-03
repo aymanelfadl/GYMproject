@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const  DeleteBillModal = ({ onClose, userData, onEditUser, onEndUser }) => {
+const  DeleteBillModal = ({ onClose, onConf }) => {
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -38,7 +38,7 @@ const  DeleteBillModal = ({ onClose, userData, onEditUser, onEndUser }) => {
           <div className="px-6 py-4 bg-gray-100 flex justify-center ">
             <button
               className="text-white w-1/2 bg-blue-500 hover:bg-blue-800 px-4 py-2 rounded-full mx-10"
-              onClick={()=>o(userEdit)}
+              onClick={onConf}
             >
               تأكيد
             </button>

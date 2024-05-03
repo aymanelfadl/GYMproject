@@ -3,6 +3,7 @@ import Header from "../HomePage/Header"
 import NavBar from "../navBar/NavBar"
 import BillLogoWhite from "../../assets/billwhite.png"
 import BillsTable from "./BillingTable";
+import DeleteBillModal from "./DeleteBillModal";
 
 
 
@@ -28,7 +29,18 @@ const BillingPage = () => {
     const [selectedUserData, setSelectedUserData] = useState(null);
     const [filterOption, setFilterOption] = useState("");
 
+    const handleSelecteBill =(item) =>{
+      console.log(item);
+      setSelectedUserData(item);
+    }
 
+    const handleDeleteBill = () => {
+      const newData = data.filter(user => user.id !== selectedUserData.id);
+      setData(newData);
+      setSelectedUserData(null);
+    };
+
+    
     const filterData = () => {
       let filteredData = [...data]; 
       
@@ -123,7 +135,18 @@ const BillingPage = () => {
             </div>
           </div>
           <div>
-            <BillsTable data={filterData()} searchTerm={searchTerm}  />
+            <BillsTable
+              data={filterData()} 
+              searchTerm={searchTerm}
+              onDeleteBill={handleSelecteBill}
+            />
+
+            {selectedUserData && 
+              <DeleteBillModal 
+                onClose={() => setSelectedUserData(null)} 
+                onConf={handleDeleteBill} 
+              />}
+
           </div>
         </div>
     </div>
