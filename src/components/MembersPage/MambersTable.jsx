@@ -12,6 +12,15 @@ const MembersTable = ({ data, searchTerm, onEditUser }) => {
 
         return age;
     }
+    function formatDate(inputDate) {
+        var parts = inputDate.split(' ');
+        
+        var dateParts = parts[0].split('-');
+        
+        var formattedDate = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
+        
+        return formattedDate;
+    }
 
     const filteredData = data.filter((item) => (item.first_name.toLowerCase().includes(searchTerm.toLowerCase()) || item.last_name.toLowerCase().includes(searchTerm.toLowerCase())));
 
@@ -54,7 +63,7 @@ const MembersTable = ({ data, searchTerm, onEditUser }) => {
                                     {item.phone_number}
                                 </td>
                                 <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">
-                                    {item.end_date}
+                                    {formatDate(item.end_date)}
                                 </td>
                                 <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">
                                     <button
