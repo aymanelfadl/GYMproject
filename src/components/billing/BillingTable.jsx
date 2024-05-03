@@ -1,5 +1,6 @@
 import { IoClose } from "react-icons/io5";
 
+
 const BillsTable = ({data, searchTerm, onDeleteBill}) => {
 
     function formatDate(inputDate) {
@@ -33,26 +34,29 @@ const BillsTable = ({data, searchTerm, onDeleteBill}) => {
                             <tr
                                 key={item.id}
                             >
-                                <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">
+                              <td className="border-b-2 border-gray-200 px-4 py-3 font-bold">
                                     {item.full_name}
                                 </td>
-                                <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">
+                                <td className="border-b-2 border-gray-200 px-4 py-3 font-bold">
                                     {item.paid_price}
                                 </td>
-                                <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">
+                                <td className="border-b-2 border-gray-200 px-4 py-3 font-bold">
                                     {formatDate(item.created_at)}
                                 </td>
-                                <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">
-                                    <button
-                                        className="w-full flex justify-center rounded-sm items-center bg-red-600 py-1 shadow-lg"
-                                        onClick={() => onDeleteBill(item)}
-                                    >
-                                        <h2 className="text-white text-lg font-bold">حدف</h2>
-                                        <IoClose
-                                            style={{ marginLeft: "4px", marginTop: "4px", color: "white", fontSize:28}}
-                                        />
-                                    </button>
+                                <td className="border-b-2 border-gray-200 px-4 py-3 font-bold text-center">
+                                    <div className="inline-block w-1/2">
+                                        <button
+                                            className="w-full flex justify-center rounded-md items-center bg-red-600 py-2"
+                                            onClick={() => onDeleteBill(item)}
+                                        >
+                                            <h2 className="text-white font-bold">حذف</h2>
+                                            <IoClose
+                                                style={{ marginLeft: "4px", marginTop: "4px", color: "white", fontSize:20}}
+                                            />
+                                        </button>
+                                    </div>
                                 </td>
+
                             </tr>
                         ))}
                     </tbody>
