@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const EditUserModal = ({ onClose, userData, onEditUser, onEndUser }) => {
+const EditUserModal = ({ onClose, userData, onEditUser, onEndUser , onReturnUser}) => {
 
   const [userEdit, setUserEdit] = useState(userData);
   const [newImage, setNewImage] = useState(null);
@@ -165,9 +165,15 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser }) => {
             </div>
           </div>
           <div className="px-6 py-4 bg-gray-100 flex justify-center ">
-            <button className="text-white w-1/2 bg-red-500 hover:bg-red-800 px-4 py-2 rounded-full mx-10" onClick={()=>onEndUser(userEdit)}>
-              انهاء العضوية
-            </button>
+            {userEdit.active === 1 ?
+              <button className="text-white w-1/2 bg-red-500 hover:bg-red-800 px-4 py-2 rounded-full mx-10" onClick={()=>onEndUser(userEdit)}>
+                انهاء العضوية
+              </button>
+              :
+              <button className="text-white w-1/2 bg-green-500 hover:bg-green-800 px-4 py-2 rounded-full mx-10" onClick={()=>onReturnUser(userEdit)}>
+                إعادة العضوية 
+              </button>
+            }
             <button
               className="text-white w-1/2 bg-blue-500 hover:bg-blue-800 px-4 py-2 rounded-full mx-10"
               onClick={()=>onEditUser(userEdit)}

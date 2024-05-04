@@ -137,6 +137,16 @@ const Home = () => {
     }
   };
 
+  const handleReturnUser = (userEdit) =>{
+    const index = data.findIndex((user) => user.id === selectedUserData.id);
+    if (index !== -1) {
+      const newData = [...data];
+      newData[index].active = 1;
+      setData(newData);
+      setSelectedUserData(null);
+    }
+  }
+
   const handleEndUser = () => {
     const index = data.findIndex((user) => user.id === selectedUserData.id);
     if (index !== -1) {
@@ -264,6 +274,7 @@ const Home = () => {
                 userData={selectedUserData}
                 onEditUser={handleEditUser}
                 onEndUser={handleEndUser}
+                onReturnUser={handleReturnUser}
               />
             )}
           </div>
