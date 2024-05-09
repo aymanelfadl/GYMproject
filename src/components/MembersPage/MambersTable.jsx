@@ -1,6 +1,6 @@
 import { FaExternalLinkAlt } from "react-icons/fa";
 
-const MembersTable = ({ data, searchTerm, onEditUser }) => {
+const MembersTable = ({ data, searchTerm, onEditUser, onOpenHistPayment }) => {
     function calculateAge(dateOfBirthString) {
         const dateOfBirth = new Date(dateOfBirthString);
         const currentDate = new Date();
@@ -42,11 +42,11 @@ const MembersTable = ({ data, searchTerm, onEditUser }) => {
                     </thead>
                     <tbody>
                         {filteredData.map((item) => (
-                            <tr
-                                key={item.id}
-                                className={new Date(item.end_date) < new Date() ? "bg-red-200" : ""}
-                            >
-                                <td className="border-y-2 border-gray-200 px-4 py-2">
+                             <tr
+                             key={item.id}
+                             className={new Date(item.end_date) < new Date() ? "bg-red-200 cursor-pointer" : "cursor-pointer"}
+                             onClick={ () => onOpenHistPayment(item.id)}
+                           > <td className="border-y-2 border-gray-200 px-4 py-2 cursor-pointer">
                                     <img
                                         src={item.picture_file}
                                         alt="pic"
@@ -68,7 +68,7 @@ const MembersTable = ({ data, searchTerm, onEditUser }) => {
                                 <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">
                                     <button
                                         className="w-full flex justify-center items-center bg-blue-600 py-1 shadow-lg"
-                                        onClick={() => onEditUser(item)}
+                                        onClick={(e) =>{ e.stopPropagation(); onEditUser(item)}}
                                     >
                                         <h2 className="text-white font-bold">تعديل</h2>
                                         <FaExternalLinkAlt

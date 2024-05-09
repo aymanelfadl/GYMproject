@@ -6,6 +6,7 @@ import AvatareLogo from "../../assets/woman.png";
 import "./Mambers.css";
 import { useState } from "react";
 import EditUserModal from "./EditUserModal";
+import HistPaymentModal from "./HistPaymentModal";
 
 const Home = () => {
   
@@ -95,14 +96,14 @@ const Home = () => {
       active: 1
     },
     {
-      id: 9,
+      id: 4,
       first_name: "Ava",
       last_name: "Clark",
       date_birth: "1992-01-30",
       phone_number: "+4567891230",
       end_date: "2022-10-20",
       picture_file: AvatareLogo,
-      created_at: "2024-03-01T11:08:24.000Z", // More than one month ago
+      created_at: "2024-03-01T11:08:24.000Z", 
       updated_at: "2024-04-18T11:08:24.000Z",
       active: 1// Membership ended
     },
@@ -119,11 +120,61 @@ const Home = () => {
       active: 1
     }
   ]);
+
+  const [paymentHistData, setPaymentHistData] = useState([
+    {
+      id: 2,
+      id_user: 4,
+      paid_price: "790.24",
+      created_at: "2024-04-18T11:12:16.000000Z",
+      updated_at: "2024-04-18T11:12:16.000000Z"
+    },
+    {
+      id: 13,
+      id_user: 4,
+      paid_price: "405.86",
+      created_at: "2024-04-18T11:12:16.000000Z",
+      updated_at: "2024-04-18T11:12:16.000000Z"
+    },
+    {
+      id: 20,
+      id_user: 4,
+      paid_price: "806.28",
+      created_at: "2024-04-18T11:12:16.000000Z",
+      updated_at: "2024-04-18T11:12:16.000000Z"
+    }, {
+      id: 2,
+      id_user: 4,
+      paid_price: "790.24",
+      created_at: "2024-04-18T11:12:16.000000Z",
+      updated_at: "2024-04-18T11:12:16.000000Z"
+    },
+    {
+      id: 13,
+      id_user: 4,
+      paid_price: "405.86",
+      created_at: "2024-04-18T11:12:16.000000Z",
+      updated_at: "2024-04-18T11:12:16.000000Z"
+    },
+    {
+      id: 20,
+      id_user: 4,
+      paid_price: "806.28",
+      created_at: "2024-04-18T11:12:16.000000Z",
+      updated_at: "2024-04-18T11:12:16.000000Z"
+    }
+
+  ]);
+  
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedUserData, setSelectedUserData] = useState(null);
   const [filterOption, setFilterOption] = useState("");
+  const [selectedUserData, setSelectedUserData] = useState(null);
+  const [showEditUser, setShowEditUser] = useState(false);
+  const [showHistPayment , setShowHistPayment] = useState(false);
+
 
   const handleSelectingUser = (selectedUser) => {
+    setShowEditUser(true);
     setSelectedUserData(selectedUser);
   };
 
@@ -133,17 +184,17 @@ const Home = () => {
       const newData = [...data];
       newData[index] = userEdit;
       setData(newData);
-      setSelectedUserData(null);
+      setShowEditUser(false)
     }
   };
 
-  const handleReturnUser = (userEdit) =>{
+  const handleReturnUser = () =>{
     const index = data.findIndex((user) => user.id === selectedUserData.id);
     if (index !== -1) {
       const newData = [...data];
       newData[index].active = 1;
       setData(newData);
-      setSelectedUserData(null);
+      setShowEditUser(false);
     }
   }
 
@@ -153,9 +204,16 @@ const Home = () => {
       const newData = [...data];
       newData[index].active = 0;
       setData(newData);
-      setSelectedUserData(null);
+      setShowEditUser(false);
     }
   };
+
+  const handleHistPayment = (id) =>{
+    // ilyas dir chi req dyalk 
+    // set hist payment data 
+    setSelectedUserData(data.at(id));
+    setShowHistPayment(true);
+  }
 
   const filterData = () => {
     let filteredData = [...data]; 
@@ -267,14 +325,24 @@ const Home = () => {
               data={filterData()}
               searchTerm={searchTerm}
               onEditUser={handleSelectingUser}
+              onOpenHistPayment={handleHistPayment}
             />
-            {selectedUserData && (
+
+            {showEditUser && (
               <EditUserModal
                 onClose={() => setSelectedUserData(null)}
                 userData={selectedUserData}
                 onEditUser={handleEditUser}
                 onEndUser={handleEndUser}
                 onReturnUser={handleReturnUser}
+              />
+            )}
+
+            {showHistPayment && (
+              <HistPaymentModal 
+                userData={selectedUserData}
+                userHistPaymentData={paymentHistData}   
+                onClose={()=>setShowHistPayment(false)}
               />
             )}
           </div>

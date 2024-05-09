@@ -170,7 +170,7 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser , onReturnUser
                 انهاء العضوية
               </button>
               :
-              <button className="text-white w-1/2 bg-green-500 hover:bg-green-800 px-4 py-2 rounded-full mx-10" onClick={()=>onReturnUser(userEdit)}>
+              <button className="text-white w-1/2 bg-green-500 hover:bg-green-800 px-4 py-2 rounded-full mx-10" onClick={()=>onReturnUser()}>
                 إعادة العضوية 
               </button>
             }
