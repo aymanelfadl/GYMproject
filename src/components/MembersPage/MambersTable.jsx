@@ -47,14 +47,15 @@ const MembersTable = ({ data, searchTerm, onEditUser, onOpenHistPayment }) => {
                              className={new Date(item.end_date) < new Date() ? "bg-red-200 cursor-pointer" : "cursor-pointer"}
                              onClick={ () => onOpenHistPayment(item.id)}
                            > <td className="border-y-2 border-gray-200 px-4 py-2 cursor-pointer">
-                                    <img
-                                        src={item.picture_file}
-                                        alt="pic"
-                                        className="w-16 h-16 object-cover rounded-full mx-auto"
-                                    />
+                                   <img
+                                    src={item.picture_file}
+                                    alt="pic"
+                                    className="w-16 h-16 object-cover rounded-full mx-auto"
+                                      />
+
                                 </td>
                                 <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">
-                                    {item.first_name} {item.last_name}
+                                    {item.first_name} 
                                 </td>
                                 <td className="border-y-2 border-gray-200 px-4 py-2 font-bold">
                                     {calculateAge(item.date_birth)}

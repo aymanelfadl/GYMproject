@@ -1,171 +1,40 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import NavBar from "../navBar/NavBar";
 import Header from "../HomePage/Header";
 import MambersTable from "./MambersTable";
 import MembersLogo from "../../assets/equipeWithe.png";
 import AvatareLogo from "../../assets/woman.png";
 import "./Mambers.css";
-import { useState } from "react";
 import EditUserModal from "./EditUserModal";
 import HistPaymentModal from "./HistPaymentModal";
 
-const Home = () => {
+const Home = ({ accessToken, userCurrent }) => {
+  console.log(accessToken)
   
-  const [data,setData] = useState([
-    {
-      id: 1,
-      first_name: "John",
-      last_name: "Doe",
-      date_birth: "1990-05-15",
-      phone_number: "+1234567890",
-      end_date: "2025-12-31",
-      picture_file: AvatareLogo,
-      created_at: "2024-04-1T11:06:24.000Z", // Today
-      updated_at: "2024-04-18T11:06:24.000Z",
-      active: 1
-    },
-    {
-      id: 2,
-      first_name: "Alice",
-      last_name: "Smith",
-      date_birth: "1985-08-25",
-      phone_number: "+1987654321",
-      end_date: "2024-04-15",
-      picture_file: AvatareLogo,
-      created_at: "2024-04-25T11:08:24.000Z", // Within one week
-      updated_at: "2024-04-18T11:08:24.000Z",
-      active: 1
-    },
-    {
-      id: 3,
-      first_name: "Emma",
-      last_name: "Johnson",
-      date_birth: "1993-02-10",
-      phone_number: "+1122334455",
-      end_date: "2024-08-29",
-      picture_file: AvatareLogo,
-      created_at: "2024-03-01T11:08:24.000Z", // Within one month
-      updated_at: "2024-04-18T11:08:24.000Z",
-      active: 1
-    },
-    {
-      id: 5,
-      first_name: "Sophia",
-      last_name: "Garcia",
-      date_birth: "1991-07-20",
-      phone_number: "+1231231234",
-      end_date: "2023-05-10",
-      picture_file: AvatareLogo,
-      created_at: "2023-04-01T11:08:24.000Z", // More than one month ago
-      updated_at: "2024-04-18T11:08:24.000Z",
-      active: 0
-    },
-    {
-      id: 6,
-      first_name: "Ethan",
-      last_name: "Miller",
-      date_birth: "1988-03-28",
-      phone_number: "+9876543210",
-      end_date: "2024-11-15",
-      picture_file: AvatareLogo,
-      created_at: "2023-11-01T11:08:24.000Z", // More than one month ago
-      updated_at: "2024-04-18T11:08:24.000Z",
-      active: 0
-    },
-    {
-      id: 7,
-      first_name: "Olivia",
-      last_name: "Brown",
-      date_birth: "1995-12-10",
-      phone_number: "+1122334455",
-      end_date: "2024-07-02",
-      picture_file: AvatareLogo,
-      created_at: "2022-03-10T11:08:24.000Z", // More than one month ago
-      updated_at: "2024-04-18T11:08:24.000Z",
-      active: 0
-    },
-    {
-      id: 8,
-      first_name: "Liam",
-      last_name: "Taylor",
-      date_birth: "1983-09-18",
-      phone_number: "+9998887776",
-      end_date: "2023-04-25",
-      picture_file: AvatareLogo,
-      created_at: "2024-04-29T11:08:24.000Z", // Today
-      updated_at: "2024-04-18T11:08:24.000Z",
-      active: 1
-    },
-    {
-      id: 4,
-      first_name: "Ava",
-      last_name: "Clark",
-      date_birth: "1992-01-30",
-      phone_number: "+4567891230",
-      end_date: "2022-10-20",
-      picture_file: AvatareLogo,
-      created_at: "2024-03-01T11:08:24.000Z", 
-      updated_at: "2024-04-18T11:08:24.000Z",
-      active: 1// Membership ended
-    },
-    {
-      id: 10,
-      first_name: "Noah",
-      last_name: "Wilson",
-      date_birth: "1987-06-12",
-      phone_number: "+9876543210",
-      end_date: "2025-08-20",
-      picture_file: AvatareLogo,
-      created_at: "2024-04-25T11:08:24.000Z", 
-      updated_at: "2024-04-18T11:08:24.000Z",
-      active: 1
-    }
-  ]);
+  const [data,setData] = useState()
+  const [dataIsHere,setDataIsHere] = useState(false);
 
-  const [paymentHistData, setPaymentHistData] = useState([
-    {
-      id: 2,
-      id_user: 4,
-      paid_price: "790.24",
-      created_at: "2024-04-18T11:12:16.000000Z",
-      updated_at: "2024-04-18T11:12:16.000000Z"
-    },
-    {
-      id: 13,
-      id_user: 4,
-      paid_price: "405.86",
-      created_at: "2024-04-18T11:12:16.000000Z",
-      updated_at: "2024-04-18T11:12:16.000000Z"
-    },
-    {
-      id: 20,
-      id_user: 4,
-      paid_price: "806.28",
-      created_at: "2024-04-18T11:12:16.000000Z",
-      updated_at: "2024-04-18T11:12:16.000000Z"
-    }, {
-      id: 2,
-      id_user: 4,
-      paid_price: "790.24",
-      created_at: "2024-04-18T11:12:16.000000Z",
-      updated_at: "2024-04-18T11:12:16.000000Z"
-    },
-    {
-      id: 13,
-      id_user: 4,
-      paid_price: "405.86",
-      created_at: "2024-04-18T11:12:16.000000Z",
-      updated_at: "2024-04-18T11:12:16.000000Z"
-    },
-    {
-      id: 20,
-      id_user: 4,
-      paid_price: "806.28",
-      created_at: "2024-04-18T11:12:16.000000Z",
-      updated_at: "2024-04-18T11:12:16.000000Z"
-    }
+   
 
-  ]);
   
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:8000/api/client/bygym/${userCurrent.id}`);
+            setData(response.data.clients);
+            setDataIsHere(true);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    if (!dataIsHere) {
+      console.log("Zz")
+        fetchData();
+    }
+}, [dataIsHere, userCurrent.id]);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [filterOption, setFilterOption] = useState("");
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -268,7 +137,7 @@ const Home = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <Header />
+      <Header userName={userCurrent.name} />
       <div className="flex flex-1 overflow-hidden">
         <div className="bg-slate-50 w-1/5 overflow-y-auto">
           <NavBar />
@@ -283,7 +152,7 @@ const Home = () => {
               />
             </div>
             <div className="font-bold text-white">
-              <h1 className="text-2xl mr-4">لوحة القيادة</h1>
+            <h1 className="text-2xl mr-4">لوحة القيادة</h1>
             </div>
           </div>
           <div className="flex flex-row-reverse py-4 pr-28">
@@ -321,12 +190,16 @@ const Home = () => {
             </div>
           </div>
           <div>
-            <MambersTable
+            {dataIsHere&&
+              <MambersTable
               data={filterData()}
               searchTerm={searchTerm}
               onEditUser={handleSelectingUser}
               onOpenHistPayment={handleHistPayment}
             />
+          
+            }
+          
 
             {showEditUser && (
               <EditUserModal

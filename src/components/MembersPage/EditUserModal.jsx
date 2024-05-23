@@ -1,24 +1,53 @@
 import { useState } from "react";
+import axios from 'axios';
 
-const EditUserModal = ({ onClose, userData, onEditUser, onEndUser , onReturnUser}) => {
-
+const EditUserModal = ({ onClose, userData, onEditUser, onEndUser, onReturnUser }) => {
   const [userEdit, setUserEdit] = useState(userData);
-  const [newImage, setNewImage] = useState(null);
+  const [newImage, setNewImage] = useState(userData.picture_file);
+  const [imageIsHere, setImageIsHere] = useState(false);
+  const [newImageFile, setNewImageFile] = useState(null);
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setNewImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setNewImage(reader.result);
         setUserEdit({
           ...userData,
-          picture_file: reader.result });
+          picture_file: reader.result,
+        });
+        setImageIsHere(true);
       };
       reader.readAsDataURL(file);
     }
   };
+
+  const updateClient = async (clientData) => {
+    const formData = new FormData();
+
+    // Append all attributes to formData
+    formData.append('first_name', "sasasas");
   
+
+    // Log the formData object before making the API call
+    console.log("Form Data:", formData);
+
+    try {
+        const response = await axios.put(`http://127.0.0.1:8000/api/client/${clientData.id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+      
+        console.log('Client updated successfully', response.data);
+        onEditUser(clientData);
+    } catch (error) {
+        console.error('Error updating client:', error.response ? error.response.data : error.message);
+    }
+};
 
 
   return (
@@ -30,7 +59,7 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser , onReturnUser
 
         <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
           <div className="px-6">
-          <div className="flex justify-end items-center pt-4">
+            <div className="flex justify-end items-center pt-4">
               <button
                 className="text-right text-gray-500 hover:text-gray-700"
                 aria-label="Close modal"
@@ -54,9 +83,9 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser , onReturnUser
             </div>
             <div className="relative w-28 h-28 mx-auto mb-4 group border-2 border-blue-200 rounded-full">
               <img
-                src={userEdit.picture_file}
+                src={newImage}
                 alt="logo"
-                className="w-full h-full rounded-full cursor-pointer group-hover:blur boder-4 border-black"
+                className="w-full h-full rounded-full cursor-pointer group-hover:blur border-4 border-black"
               />
               <label
                 htmlFor="fileInput"
@@ -85,17 +114,14 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser , onReturnUser
               <div className="flex items-center justify-between mx-12">
                 <input
                   type="text"
-                  className="border border-salte-400  outline-blue-600  rounded-md px-3 py-2 text-right w-3/5"
+                  className="border border-slate-400 outline-blue-600 rounded-md px-3 py-2 text-right w-3/5"
                   placeholder="الاسم الكامل"
-                  value={userEdit.first_name + " " + userEdit.last_name}
+                  value={userEdit.first_name}
                   onChange={(e) => {
                     const fullName = e.target.value;
-                    const spaceIndex = fullName.indexOf(" ");
-                  
                     setUserEdit({
                       ...userEdit,
-                      first_name: spaceIndex !== -1 ? fullName.substring(0, spaceIndex) : fullName,
-                      last_name: spaceIndex !== -1 ? fullName.substring(spaceIndex + 1) : "",
+                      first_name: fullName,
                     });
                   }}
                 />
@@ -106,7 +132,7 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser , onReturnUser
               <div className="flex items-center justify-between mx-12">
                 <input
                   type="date"
-                  className="border border-gray-300   outline-blue-600 rounded-md px-3 py-2 w-3/5"
+                  className="border border-gray-300 outline-blue-600 rounded-md px-3 py-2 w-3/5"
                   placeholder="تاريخ الميلاد"
                   value={userEdit.date_birth}
                   onChange={(e) =>
@@ -120,7 +146,7 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser , onReturnUser
               <div className="flex items-center justify-between mx-12">
                 <input
                   type="text"
-                  className="border border-gray-300   outline-blue-600  rounded-md px-3 py-2 text-right w-3/5"
+                  className="border border-gray-300 outline-blue-600 rounded-md px-3 py-2 text-right w-3/5"
                   placeholder="رقم الهاتف"
                   value={userEdit.phone_number}
                   onChange={(e) =>
@@ -134,8 +160,8 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser , onReturnUser
               <div className="flex items-center justify-between mx-12">
                 <input
                   type="text"
-                  className="border border-gray-300  outline-blue-600 rounded-md px-3 py-2 text-right w-3/5"
-                  placeholder="المبلغ االمؤدى من طرف زبون"
+                  className="border border-gray-300 outline-blue-600 rounded-md px-3 py-2 text-right w-3/5"
+                  placeholder="المبلغ المؤدى من طرف زبون"
                   value={userEdit.subscription_amount}
                   onChange={(e) =>
                     setUserEdit({
@@ -151,7 +177,7 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser , onReturnUser
               <div className="flex items-center justify-between mx-12">
                 <input
                   type="date"
-                  className="border border-gray-300 outline-blue-600   rounded-md px-3 py-2 w-3/5"
+                  className="border border-gray-300 outline-blue-600 rounded-md px-3 py-2 w-3/5"
                   placeholder="تاريخ انتهاء العضوية"
                   value={userEdit.end_date}
                   onChange={(e) =>
@@ -164,19 +190,19 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser , onReturnUser
               </div>
             </div>
           </div>
-          <div className="px-6 py-4 bg-gray-100 flex justify-center ">
-            {userEdit.active === 1 ?
-              <button className="text-white w-1/2 bg-red-500 hover:bg-red-800 px-4 py-2 rounded-full mx-10" onClick={()=>onEndUser(userEdit)}>
+          <div className="px-6 py-4 bg-gray-100 flex justify-center">
+            {userEdit.active === 1 ? (
+              <button className="text-white w-1/2 bg-red-500 hover:bg-red-800 px-4 py-2 rounded-full mx-10" onClick={() => onEndUser(userEdit)}>
                 انهاء العضوية
               </button>
-              :
-              <button className="text-white w-1/2 bg-green-500 hover:bg-green-800 px-4 py-2 rounded-full mx-10" onClick={()=>onReturnUser()}>
+            ) : (
+              <button className="text-white w-1/2 bg-green-500 hover:bg-green-800 px-4 py-2 rounded-full mx-10" onClick={() => onReturnUser(userEdit)}>
                 إعادة العضوية 
               </button>
-            }
+            )}
             <button
               className="text-white w-1/2 bg-blue-500 hover:bg-blue-800 px-4 py-2 rounded-full mx-10"
-              onClick={()=>onEditUser(userEdit)}
+              onClick={() => updateClient(userEdit)}
             >
               حفظ
             </button>

@@ -3,9 +3,9 @@ import Logo from "../../assets/Fitflex-HD.png"
 import AvatreLogo from "../../assets/man.png"
 
 
-const Header = () => {
+
+const Header = ({ userName }) => {
     
-    const [user , setUser] = useState("ilyas bnv");
 
     return(
         <div className="flex flex-row justify-between h-20 bg-slate-50">
@@ -14,7 +14,7 @@ const Header = () => {
             </div>
             <div className="flex flex-row items-center">
                 <div className="p-4 font-bold">
-                    <h2>{user}</h2>
+                    <h2> {userName} </h2>
                 </div>
                 <div className="h-10 pr-8">
                     <img src={AvatreLogo} alt="Logo" className="h-full w-full object-contain " />

@@ -1,11 +1,20 @@
 import React, { useState } from "react";
+import axios from 'axios'; // Import axios for making HTTP requests
 import Header from "../HomePage/Header";
 import NavBar from "../navBar/NavBar";
 import AddUserLogo from "../../assets/adduserwhite.png";
 import UserInfo from "../../assets/userinfo.png";
 
-const AddUserPage = () => {
+const AddUserPage = ({ userCurrent }) => {
   const [imageFile, setImageFile] = useState(null);
+  const [userEdit, setUserEdit] = useState({
+    first_name: "",
+    date_birth: "",
+    phone_number: "",
+    end_date: "",
+    picture_file: null,
+    id_user: userCurrent.id,
+  });
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -13,14 +22,42 @@ const AddUserPage = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageFile(reader.result);
+        setUserEdit({
+          ...userEdit,
+          picture_file: file
+        });
       };
       reader.readAsDataURL(file);
     }
   };
 
+  const onEditUser = async (userData) => {
+    const formData = new FormData();
+    for (const key in userData) {
+      formData.append(key, userData[key]);
+    }
+    if (userData.picture_file) {
+      formData.append('picture_file', userData.picture_file);
+    }
+
+    try {
+      console.log("formdata : "+formData);
+      const response = await axios.post('http://127.0.0.1:8000/api/client', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      console.log(response.data);
+      alert('Client added successfully');
+    } catch (error) {
+      console.error('Error adding client:', error);
+      alert('Failed to add client');
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen">
-      <Header />
+      <Header userName={userCurrent.name} />
       <div className="flex flex-1 overflow-hidden">
         <div className="bg-slate-50 w-1/5 overflow-y-auto">
           <NavBar />
@@ -45,7 +82,7 @@ const AddUserPage = () => {
             <div className="border-2 ml-10 border-blue-600 w-full" />
           </div>
           <div className="flex flex-row-reverse items-stretch justify-center mt-4">
-          <div className="flex flex-col items-center justify-center bg-slate-50 shadow-lg mb-6 rounded-xl mx-6">
+            <div className="flex flex-col items-center justify-center bg-slate-50 shadow-lg mb-6 rounded-xl mx-6">
               <div className="relative w-28 h-28 mx-auto mb-4 group bg-slate-200 border-2 border-blue-200  rounded-full">
                 {imageFile && <img src={imageFile} alt="logo" className="w-full h-full rounded-full cursor-pointer group-hover:blur boder-4 border-black" />}
                 <label
@@ -80,11 +117,9 @@ const AddUserPage = () => {
                   placeholder="الاسم الكامل"
                   onChange={(e) => {
                     const fullName = e.target.value;
-                    const spaceIndex = fullName.indexOf(" ");
                     setUserEdit({
                       ...userEdit,
-                      first_name: spaceIndex !== -1 ? fullName.substring(0, spaceIndex) : fullName,
-                      last_name: spaceIndex !== -1 ? fullName.substring(spaceIndex + 1) : "",
+                      first_name: fullName,
                     });
                   }}
                 />
@@ -118,22 +153,7 @@ const AddUserPage = () => {
                   :رقم الهاتف
                 </label>
               </div>
-              <div className="flex items-center justify-between mx-12">
-                <input
-                  type="text"
-                  className="border border-gray-300 outline-blue-600 rounded-md px-3 py-2 text-right w-3/5"
-                  placeholder="المبلغ االمؤدى من طرف زبون"
-                  onChange={(e) =>
-                    setUserEdit({
-                      ...userEdit,
-                      subscription_amount: e.target.value,
-                    })
-                  }
-                />
-                <label className="text-lg font-bold text-blue-600">
-                  :اشتراك جديد
-                </label>
-              </div>
+              {/* Remove the subscription amount input field for now */}
               <div className="flex items-center justify-between mx-12">
                 <input
                   type="date"
@@ -151,14 +171,13 @@ const AddUserPage = () => {
           </div>
           <div className="px-6 py-3 flex justify-center">
             <button
-                className="text-white w-40 bg-blue-500 hover:bg-blue-800 px-4 py-2 rounded-full mx-10"
-                onClick={()=>onEditUser(userEdit)}
-                >
-                حفظ
-                </button>
+              className="text-white w-40 bg-blue-500 hover:bg-blue-800 px-4 py-2 rounded-full mx-10"
+              onClick={() => onEditUser(userEdit)}
+            >
+              حفظ
+            </button>
           </div>
           <div className="border-4 border-blue-600 w-full" />
-
         </div>
       </div>
     </div>
