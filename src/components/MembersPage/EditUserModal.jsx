@@ -29,14 +29,20 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser, onReturnUser 
     const formData = new FormData();
 
     // Append all attributes to formData
-    formData.append('first_name', "sasasas");
-  
+    formData.append('first_name', clientData.first_name);
+    formData.append('date_birth', clientData.date_birth);
+    formData.append('phone_number', clientData.phone_number);
+    formData.append('end_date', clientData.end_date);
+
+    if(imageIsHere){
+      formData.append('picture_file', newImageFile);
+
+    }
 
     // Log the formData object before making the API call
-    console.log("Form Data:", formData);
 
     try {
-        const response = await axios.put(`http://127.0.0.1:8000/api/client/${clientData.id}`, formData, {
+        const response = await axios.post(`http://127.0.0.1:8000/api/client/${clientData.id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
