@@ -8,8 +8,53 @@ import AvatareLogo from "../../assets/woman.png";
 import "./Mambers.css";
 import EditUserModal from "./EditUserModal";
 import HistPaymentModal from "./HistPaymentModal";
+import AddPaymentModel from './AddPaymentModel';
 
 const Home = ({ accessToken, userCurrent }) => {
+  const [paymentHistData, setPaymentHistData] = useState([
+    {
+      id: 28,
+      id_user: 4,
+      paid_price: "790.24",
+      created_at: "2024-04-18T11:12:16.000000Z",
+      updated_at: "2024-04-18T11:12:16.000000Z"
+    },
+    {
+      id: 27,
+      id_user: 4,
+      paid_price: "405.86",
+      created_at: "2024-04-18T11:12:16.000000Z",
+      updated_at: "2024-04-18T11:12:16.000000Z"
+    },
+    {
+      id: 29,
+      id_user: 4,
+      paid_price: "806.28",
+      created_at: "2024-04-18T11:12:16.000000Z",
+      updated_at: "2024-04-18T11:12:16.000000Z"
+    }, {
+      id: 30,
+      id_user: 4,
+      paid_price: "790.24",
+      created_at: "2024-04-18T11:12:16.000000Z",
+      updated_at: "2024-04-18T11:12:16.000000Z"
+    },
+    {
+      id: 183,
+      id_user: 4,
+      paid_price: "405.86",
+      created_at: "2024-04-18T11:12:16.000000Z",
+      updated_at: "2024-04-18T11:12:16.000000Z"
+    },
+    {
+      id: 280,
+      id_user: 4,
+      paid_price: "806.28",
+      created_at: "2024-04-18T11:12:16.000000Z",
+      updated_at: "2024-04-18T11:12:16.000000Z"
+    }
+
+  ]);
   console.log(accessToken)
   
   const [data,setData] = useState()
@@ -40,10 +85,16 @@ const Home = ({ accessToken, userCurrent }) => {
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [showEditUser, setShowEditUser] = useState(false);
   const [showHistPayment , setShowHistPayment] = useState(false);
+  const [showAddPayment , setShowAddPayment] = useState(false);
+
 
 
   const handleSelectingUser = (selectedUser) => {
     setShowEditUser(true);
+    setSelectedUserData(selectedUser);
+  };
+  const handleSelectingUserPayment = (selectedUser) => {
+    setShowHistPayment(true);
     setSelectedUserData(selectedUser);
   };
 
@@ -195,6 +246,7 @@ const Home = ({ accessToken, userCurrent }) => {
               data={filterData()}
               searchTerm={searchTerm}
               onEditUser={handleSelectingUser}
+              OnAddPayment={handleSelectingUserPayment}
               onOpenHistPayment={handleHistPayment}
             />
           
@@ -203,7 +255,7 @@ const Home = ({ accessToken, userCurrent }) => {
 
             {showEditUser && (
               <EditUserModal
-                onClose={() => setSelectedUserData(null)}
+                onClose={() => setShowEditUser(false)}
                 userData={selectedUserData}
                 onEditUser={handleEditUser}
                 onEndUser={handleEndUser}
@@ -218,6 +270,8 @@ const Home = ({ accessToken, userCurrent }) => {
                 onClose={()=>setShowHistPayment(false)}
               />
             )}
+            {showAddPayment &&    <AddPaymentModel idSelectedUser={selectedUserData.id} /> }
+         
           </div>
         </div>
       </div>

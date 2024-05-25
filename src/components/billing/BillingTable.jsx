@@ -3,15 +3,10 @@ import { IoClose } from "react-icons/io5";
 
 const BillsTable = ({data, searchTerm, onDeleteBill}) => {
 
-    function formatDate(inputDate) {
-        var parts = inputDate.split(' ');
-        
-        var dateParts = parts[0].split('-');
-        
-        var formattedDate = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
-        
-        return formattedDate;
-    }
+    const formatDate = (inputDate) => {
+        const date = new Date(inputDate);
+        return new Intl.DateTimeFormat('en-GB').format(date);
+      };
 
     const filteredData = data.filter((item) => (item.full_name.toLowerCase().includes(searchTerm.toLowerCase())));
 

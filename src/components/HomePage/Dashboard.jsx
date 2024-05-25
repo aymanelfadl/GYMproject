@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import AnalysisLogo from "../../assets/analyse.png";
 import IncomeLogo from "../../assets/generous.png";
 import CoinLogo from "../../assets/coin.png";
@@ -7,13 +8,37 @@ import DayLogo from "../../assets/day.png";
 import WeekLogo from "../../assets/week.png";
 import MonthLogo from "../../assets/month.png"
 import NoMoneyLogo from "../../assets/nomoney.png"
-import { useState } from "react";
 import ProgressBar from "./ProgressBar";
+import axios from 'axios';
 
-const Dashboard = () => {
+const Dashboard = ({ userCurrent }) => {
 
-    const [totalIncome, setTotolIncome] = useState(0);
-    const [totaleUsers, setTotaleUSers] = useState(0);
+    const [clientsData, setClientsData] = useState(null);
+    const [incomeData, setIncomeData] = useState(null);
+    const [dataIsHere, setDataIsHere] = useState(false);
+
+
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/dashboardNumbers/${userCurrent.id}`);
+                setClientsData(response.data.timeClients);
+                console.log(response.data.timeClients)
+
+                setDataIsHere(true);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        if (!dataIsHere) {
+            console.log("Fetching data...");
+            fetchData();
+        }
+    }, [dataIsHere]); //
+    
 
     return (
         <div>
@@ -22,7 +47,7 @@ const Dashboard = () => {
                     <img src={AnalysisLogo} alt="Illustrations" className="h-full w-full object-contain" />
                 </div>
                 <div className="font-bold text-white">
-                    <h1 className="text-2xl mr-4">لوحة القيادة</h1>
+                    <h1 className="text-2xl mr-4"> لوحة القيادة</h1>
                 </div>
             </div>
             <div className="flex flex-row w-full">
@@ -38,7 +63,7 @@ const Dashboard = () => {
                                 </div>
                                 <div className="flex items-center">
                                     <div>
-                                        <h1 className="ml-5 text-xl font-bold">{totalIncome}</h1>
+                                        <h1 className="ml-5 text-xl font-bold">0</h1>
                                     </div>
                                     <div className="h-8 w-8 ml-6">
                                         <img src={CoinLogo} alt="Illustrations" className="h-full w-full object-contain" />
@@ -81,7 +106,7 @@ const Dashboard = () => {
                                 </div>
                                 <div className="flex items-center">
                                     <div>
-                                        <h1 className="ml-8 text-xl font-bold">{totaleUsers}</h1>
+                                        <h1 className="ml-8 text-xl font-bold">{clientsData?clientsData.allClients:0}</h1>
                                     </div>
                                     <div className="h-5 w-4 ml-2 mt-1">
                                         <img src={UserCountLogo} alt="Illustrations" className="h-full w-full object-contain" />
@@ -100,16 +125,16 @@ const Dashboard = () => {
                             </div>
                             <div className="flex flex-col px-4" style={{borderRadius: 100}}>
                                 <div>
-                                    <ProgressBar data={0} total={100} Date={"العملاء بدون دفع"} MiniLogo={NoMoneyLogo} hasRedBorder={true}/>
+                                    <ProgressBar data={clientsData?clientsData.unactiveClients:0} total={100} Date={"العملاء بدون دفع"} MiniLogo={NoMoneyLogo} hasRedBorder={true}/>
                                 </div>
                                 <div>
-                                    <ProgressBar data={50} total={100}  Date={"عملاء اليوم"} MiniLogo={UserCountLogo}/>
+                                    <ProgressBar data={clientsData?clientsData.dayClients:0} total={clientsData?clientsData.weekClients:100}  Date={"عملاء اليوم"} MiniLogo={UserCountLogo}/>
                                 </div>
                                 <div >
-                                    <ProgressBar data={20} total={100}  Date={"عملاء الأسبوع"} MiniLogo={UserCountLogo}/>
+                                    <ProgressBar data={clientsData?clientsData.weekClients:0} total={clientsData?clientsData.monthClients:100}  Date={"عملاء الأسبوع"} MiniLogo={UserCountLogo}/>
                                 </div>
                                 <div className="mb-8">
-                                    <ProgressBar data={40} total={100}  Date={"عملاءالشهر"} MiniLogo={UserCountLogo}/>
+                                    <ProgressBar data={clientsData?clientsData.monthClients:0} total={clientsData?clientsData.monthClients:100}  Date={"عملاءالشهر"} MiniLogo={UserCountLogo}/>
                                 </div>
                             </div>
                         </div>

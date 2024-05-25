@@ -1,33 +1,52 @@
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import Header from "../HomePage/Header"
 import NavBar from "../navBar/NavBar"
 import BillLogoWhite from "../../assets/billwhite.png"
 import BillsTable from "./BillingTable";
 import DeleteBillModal from "./DeleteBillModal";
+import axios from 'axios';
+
+
 
 
 
 const BillingPage = ({ userCurrent }) => {
 
-    const [data, setData] = useState([
-      {
-        id: "7",
-        full_name: "Samantha Miller",
-        paid_price: 200.50,
-        id_user: "1007",
-        created_at: "2024-01-03 11:25:00"
-      },
-      {
-        id: "8",
-        full_name: "James Anderson",
-        paid_price: 95.75,
-        id_user: "1008",
-        created_at: "2024-04-4 11:30:00"
-      },  
-    ]);
+    const [data, setData] = useState(null);
+    const [dataIsHere, setDataIsHere] = useState(false);
+
+
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`http://127.0.0.1:8000/api/payment/gym/${userCurrent.id}`);
+          setData(response.data.payments);
+          setDataIsHere(true);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+  
+      fetchData();
+    }, [userCurrent.id]);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedUserData, setSelectedUserData] = useState(null);
     const [filterOption, setFilterOption] = useState("");
+
+    const formatDate = (inputDate) => {
+      const date = new Date(inputDate);
+      return new Intl.DateTimeFormat('en-GB').format(date);
+    };
+    const deletePayment = async () => {
+      try {
+        await axios.delete(`http://127.0.0.1:8000/api/payment/${selectedUserData.id}`);
+        console.log(`Payment ${selectedUserData.id} deleted successfully!`);
+        handleDeleteBill();
+      } catch (error) {
+        console.error(`Error deleting payment ${selectedUserData.id}:`, error);
+      }
+    };
 
     const handleSelecteBill =(item) =>{
       console.log(item);
@@ -42,45 +61,40 @@ const BillingPage = ({ userCurrent }) => {
 
     
     const filterData = () => {
-      let filteredData = [...data]; 
-      
+      let filteredData = [...data];
+    
       switch (filterOption) {
         case "today":
-          filteredData = filteredData.filter((user) => {
+          filteredData = filteredData.filter((payment) => {
             const today = new Date().toISOString().split('T')[0];
-            const userDate = user.created_at.split(' ')[0];
-            console.log("Today:", today);
-            console.log("User created_at:", userDate);
-            return userDate === today;
+            const paymentDate = payment.created_at.split('T')[0];
+            return paymentDate === today;
           });
-          break;      
+          break;
         case "one_week":
-            filteredData = filteredData.filter((user) => {
-              const today = new Date().toISOString().split('T')[0];
-              const oneWeekLater = new Date(today);
-              oneWeekLater.setDate(oneWeekLater.getDate() - 7);
-              const finalDate = oneWeekLater.toISOString().split('T')[0];
-              const userDate = user.created_at.split(' ')[0]; 
-              return finalDate <= userDate && userDate <= today; 
-            });
+          filteredData = filteredData.filter((payment) => {
+            const today = new Date();
+            const oneWeekAgo = new Date(today);
+            oneWeekAgo.setDate(today.getDate() - 7);
+            const paymentDate = new Date(payment.created_at);
+            return paymentDate >= oneWeekAgo && paymentDate <= today;
+          });
           break;
         case "one_month":
-            filteredData = filteredData.filter((user) => {
-              const today = new Date().toISOString().split('T')[0]; 
-              const oneMonthLater = new Date(today); 
-              oneMonthLater.setMonth(oneMonthLater.getMonth() - 1); 
-              const finaleDate = oneMonthLater.toISOString().split('T')[0]; 
-              const userDate = user.created_at.split(' ')[0];
-              return finaleDate <= userDate && finaleDate <= today;
-            });
+          filteredData = filteredData.filter((payment) => {
+            const today = new Date();
+            const oneMonthAgo = new Date(today);
+            oneMonthAgo.setMonth(today.getMonth() - 1);
+            const paymentDate = new Date(payment.created_at);
+            return paymentDate >= oneMonthAgo && paymentDate <= today;
+          });
           break;
         default:
           break;
       }
-      
+    
       return filteredData;
     };
-    
 
     return(
         <div className="flex flex-col h-screen">
@@ -135,16 +149,19 @@ const BillingPage = ({ userCurrent }) => {
             </div>
           </div>
           <div>
-            <BillsTable
+            {dataIsHere &&
+              <BillsTable
               data={filterData()} 
               searchTerm={searchTerm}
               onDeleteBill={handleSelecteBill}
             />
+            }
+          
 
             {selectedUserData && 
               <DeleteBillModal 
                 onClose={() => setSelectedUserData(null)} 
-                onConf={handleDeleteBill} 
+                onConf={deletePayment} 
               />}
 
           </div>

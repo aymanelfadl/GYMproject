@@ -2,7 +2,7 @@ import NavBar from "../navBar/NavBar";
 import Dashboard from "./Dashboard";
 import Header from "./Header";
 
-const Home = () => {
+const Home = ({ userCurrent }) => {
     return (
         <div className="flex flex-col h-screen">
             <Header/>
@@ -11,7 +11,7 @@ const Home = () => {
                     <NavBar />
                 </div>
                 <div className="flex-1 overflow-y-auto">
-                    <Dashboard />
+                    <Dashboard userCurrent={userCurrent} />
                 </div>
             </div>
         </div>

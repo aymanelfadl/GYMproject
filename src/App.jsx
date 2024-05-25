@@ -52,7 +52,7 @@ function App() {
         {/* Render Members route only when user data is available */}
         {loadingUser ? null : (
           <>
-            <Route path='home' element={<Home />} />
+            <Route path='home' element={<Home userCurrent={userCurrent} />} />
             <Route path='members' element={<Members userCurrent={userCurrent} />} />
             <Route path='add' element={<AddUserPage userCurrent={userCurrent} />} />
             <Route path='billing' element={<BillingPage  userCurrent={userCurrent} />} />

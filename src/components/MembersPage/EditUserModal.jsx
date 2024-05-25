@@ -163,23 +163,7 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser, onReturnUser 
                   رقم الهاتف
                 </label>
               </div>
-              <div className="flex items-center justify-between mx-12">
-                <input
-                  type="text"
-                  className="border border-gray-300 outline-blue-600 rounded-md px-3 py-2 text-right w-3/5"
-                  placeholder="المبلغ المؤدى من طرف زبون"
-                  value={userEdit.subscription_amount}
-                  onChange={(e) =>
-                    setUserEdit({
-                      ...userEdit,
-                      subscription_amount: e.target.value,
-                    })
-                  }
-                />
-                <label className="text-lg font-bold text-blue-600">
-                  اشتراك جديد
-                </label>
-              </div>
+            
               <div className="flex items-center justify-between mx-12">
                 <input
                   type="date"
