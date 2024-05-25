@@ -26,6 +26,7 @@ const Dashboard = ({ userCurrent }) => {
                 const response = await axios.get(`http://127.0.0.1:8000/api/dashboardNumbers/${userCurrent.id}`);
                 setClientsData(response.data.timeClients);
                 console.log(response.data.timeClients)
+                setIncomeData(response.data.timeMoney)
 
                 setDataIsHere(true);
             } catch (error) {
@@ -63,7 +64,7 @@ const Dashboard = ({ userCurrent }) => {
                                 </div>
                                 <div className="flex items-center">
                                     <div>
-                                        <h1 className="ml-5 text-xl font-bold">0</h1>
+                                        <h1 className="ml-5 text-xl font-bold">{incomeData ?incomeData.totalAmount :0}</h1>
                                     </div>
                                     <div className="h-8 w-8 ml-6">
                                         <img src={CoinLogo} alt="Illustrations" className="h-full w-full object-contain" />
@@ -82,13 +83,13 @@ const Dashboard = ({ userCurrent }) => {
                             </div>
                             <div className="flex flex-col px-4" style={{borderRadius: 100}}>
                                 <div>
-                                    <ProgressBar data={100} total={100} IconLogo={DayLogo} Date={"هذا اليوم"}/>
+                                    <ProgressBar data={incomeData ?incomeData.dayAmount :0} total={incomeData ?incomeData.weekAmount :100} IconLogo={DayLogo} Date={"هذا اليوم"}/>
                                 </div>
                                 <div>
-                                    <ProgressBar data={50} total={100} IconLogo={WeekLogo} Date={"هذا الأسبوع"}/>
+                                    <ProgressBar data={incomeData ?incomeData.weekAmount :0} total={incomeData ?incomeData.monthAmount :100} IconLogo={WeekLogo} Date={"هذا الأسبوع"}/>
                                 </div>
                                 <div className="mb-8">
-                                    <ProgressBar data={20} total={100} IconLogo={MonthLogo} Date={"هذا الشهر"}/>
+                                    <ProgressBar data={incomeData ?incomeData.monthAmount :0} total={incomeData ?incomeData.totalAmount :100} IconLogo={MonthLogo} Date={"هذا الشهر"}/>
                                 </div>
                             </div>
                         </div>

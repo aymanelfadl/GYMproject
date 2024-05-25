@@ -118,6 +118,28 @@ const Home = ({ accessToken, userCurrent }) => {
     }
   }
 
+
+
+  const disactivateClient = async () => {
+    try {
+      const response = await axios.post(`http://127.0.0.1:8000/api/client/disactivate/${selectedUserData.id}`);
+      console.log('Client disactivated successfully!', response.data);
+      handleEndUser();
+     
+    } catch (error) {
+      console.error('An error occurred while disactivating the client:', error);
+    }
+  };
+  const activateClient = async () => {
+    try {
+      const response = await axios.post(`http://127.0.0.1:8000/api/client/activate/${selectedUserData.id}`);
+      console.log('Client sactivated successfully!', response.data);
+      handleReturnUser();     
+    } catch (error) {
+      console.error('An error occurred while disactivating the client:', error);
+    }
+  };
+
   const handleEndUser = () => {
     const index = data.findIndex((user) => user.id === selectedUserData.id);
     if (index !== -1) {
@@ -127,6 +149,9 @@ const Home = ({ accessToken, userCurrent }) => {
       setShowEditUser(false);
     }
   };
+
+
+
 
   const handleHistPayment = (id) =>{
     // ilyas dir chi req dyalk 
@@ -258,8 +283,8 @@ const Home = ({ accessToken, userCurrent }) => {
                 onClose={() => setShowEditUser(false)}
                 userData={selectedUserData}
                 onEditUser={handleEditUser}
-                onEndUser={handleEndUser}
-                onReturnUser={handleReturnUser}
+                onEndUser={disactivateClient}
+                onReturnUser={activateClient}
               />
             )}
 

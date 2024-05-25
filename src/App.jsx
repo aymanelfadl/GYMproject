@@ -30,9 +30,9 @@ function App() {
       });
       setUserCurrent(response.data.data.user); // Set user data in state
       setLoadingUser(false); // Set loading to false once user data is fetched
+      // here i want to navigate to /home
     } catch (error) {
       console.error('Error fetching user data:', error);
-      setLoadingUser(false); // Set loading to false even if there's an error
     }
   };
 
