@@ -11,7 +11,10 @@ import BillLogoBlue from "../../assets/billBlue.png"
 
 const NavBar = () => {
     const location = useLocation();
+    const onLogout = () => {
+        localStorage.removeItem("accessToken");
 
+      };
     return (
         <div className="flex flex-col h-full">
             <div className="flex flex-col flex-grow">
@@ -33,7 +36,10 @@ const NavBar = () => {
                 </NavLink>
             </div>
             <div>
-                <NavLink to="/" className={`flex flex-row items-center px-4 justify-between h-16 bg-slate-50 hover:bg-blue-100`}>
+                <NavLink 
+                  onClick={() => onLogout()}
+                 
+                    className={`flex flex-row items-center px-4 justify-between h-16 bg-slate-50 hover:bg-blue-100`}>
                     <img src={OutLogoBlue} alt="logo" className="w-8 h-8" />
                     <div className="text-xl font-bold text-blue-500">خروج</div>
                 </NavLink>

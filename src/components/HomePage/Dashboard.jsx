@@ -10,6 +10,7 @@ import MonthLogo from "../../assets/month.png"
 import NoMoneyLogo from "../../assets/nomoney.png"
 import ProgressBar from "./ProgressBar";
 import axios from 'axios';
+import Loading from '../loading/Loading';
 
 const Dashboard = ({ userCurrent }) => {
 
@@ -43,6 +44,8 @@ const Dashboard = ({ userCurrent }) => {
 
     return (
         <div>
+           {!dataIsHere && <Loading />}
+            
             <div className="bg-blue-600 text-white py-2 px-6 w-full flex flex-row-reverse items-center">
                 <div className="h-10 w-10 mt-2">
                     <img src={AnalysisLogo} alt="Illustrations" className="h-full w-full object-contain" />

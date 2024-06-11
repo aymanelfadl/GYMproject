@@ -5,6 +5,7 @@ import BillLogoWhite from "../../assets/billwhite.png"
 import BillsTable from "./BillingTable";
 import DeleteBillModal from "./DeleteBillModal";
 import axios from 'axios';
+import Loading from '../loading/Loading';
 
 
 
@@ -98,6 +99,7 @@ const BillingPage = ({ userCurrent }) => {
 
     return(
         <div className="flex flex-col h-screen">
+
             <Header userName={userCurrent.name} />
             <div className="flex flex-1 overflow-hidden">
                 <div className="bg-slate-50 w-1/5 overflow-y-auto">
@@ -149,13 +151,15 @@ const BillingPage = ({ userCurrent }) => {
             </div>
           </div>
           <div>
-            {dataIsHere &&
+           {dataIsHere ? (
               <BillsTable
-              data={filterData()} 
-              searchTerm={searchTerm}
-              onDeleteBill={handleSelecteBill}
-            />
-            }
+                data={filterData()}
+                searchTerm={searchTerm}
+                onDeleteBill={handleSelecteBill}
+              />
+            ) : (
+              <Loading />
+            )}
           
 
             {selectedUserData && 

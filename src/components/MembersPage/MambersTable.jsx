@@ -1,6 +1,7 @@
 import { FaExternalLinkAlt } from "react-icons/fa";
 import EditSvg from "./EditSvg";
 import MoneySvg from "./MoneySvg";
+import Loading from "../loading/Loading";
 
 const MembersTable = ({ data, searchTerm, onEditUser, onOpenHistPayment,  OnAddPayment }) => {
     function calculateAge(dateOfBirthString) {
@@ -24,10 +25,12 @@ const MembersTable = ({ data, searchTerm, onEditUser, onOpenHistPayment,  OnAddP
         return formattedDate;
     }
 
-    const filteredData = data.filter((item) => (item.first_name.toLowerCase().includes(searchTerm.toLowerCase()) || item.last_name.toLowerCase().includes(searchTerm.toLowerCase())));
+    const filteredData = data.filter((item) => (item.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ));
 
     return (
         <div className="w-full flex justify-center">
+                      
+
             {filteredData.length === 0 ? (
                 <h2 className="text-center text-gray-400 mt-4">لا يوجد أعضاء حاليا </h2>
             ) : (

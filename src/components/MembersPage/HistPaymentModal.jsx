@@ -37,7 +37,8 @@ const HistPaymentModal = ({ onClose, userData }) => {
         id_user: userData.id,
       });
       console.log('Payment added successfully!');
-      setPaymentHistData([...paymentHistData, response.data]); // Assuming the API returns the added payment
+    setPaymentHistData([response.data, ...paymentHistData]);
+ // Assuming the API returns the added payment
       setNewPayment(0); // Reset the input after successful addition
       setPaymentIsHere(false);
       

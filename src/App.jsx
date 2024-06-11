@@ -7,6 +7,7 @@ import AddUserPage from './components/AddUser/AddUserPage';
 import BillingPage from './components/billing/BillingPage';
 import axios from 'axios'; // Import axios for making HTTP requests
 
+
 function App() {
   const [accessToken, setAccessToken] = useState("");
   const [userCurrent, setUserCurrent] = useState(null); // State to store user data
@@ -17,6 +18,7 @@ function App() {
     const token = localStorage.getItem("accessToken");
     if (token) {
       setAccessToken(token);
+
     }
   };
 
@@ -29,8 +31,7 @@ function App() {
         }
       });
       setUserCurrent(response.data.data.user); // Set user data in state
-      setLoadingUser(false); // Set loading to false once user data is fetched
-      // here i want to navigate to /home
+      setLoadingUser(false); 
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
@@ -47,7 +48,7 @@ function App() {
   return (
     <BrowserRouter> {/* Wrap App component with BrowserRouter */}
       <Routes>
-        <Route path='/' element={<LoginForm />}/>
+        <Route path='/' element={<LoginForm isLogin={!loadingUser} setLoadingUser={setLoadingUser} setUserCurrent={setUserCurrent}  />}/>
        
         {/* Render Members route only when user data is available */}
         {loadingUser ? null : (
@@ -56,6 +57,8 @@ function App() {
             <Route path='members' element={<Members userCurrent={userCurrent} />} />
             <Route path='add' element={<AddUserPage userCurrent={userCurrent} />} />
             <Route path='billing' element={<BillingPage  userCurrent={userCurrent} />} />
+           
+
           </>
         )}
       </Routes>

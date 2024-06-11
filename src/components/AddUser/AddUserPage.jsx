@@ -7,12 +7,14 @@ import UserInfo from "../../assets/userinfo.png";
 
 const AddUserPage = ({ userCurrent }) => {
   const [imageFile, setImageFile] = useState(null);
+  const [picture_file, setPicture_file] = useState(null);
+
+
   const [userEdit, setUserEdit] = useState({
     first_name: "",
     date_birth: "",
     phone_number: "",
     end_date: "",
-    picture_file: null,
     id_user: userCurrent.id,
   });
 
@@ -22,10 +24,7 @@ const AddUserPage = ({ userCurrent }) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageFile(reader.result);
-        setUserEdit({
-          ...userEdit,
-          picture_file: file
-        });
+       setPicture_file(file);
       };
       reader.readAsDataURL(file);
     }
@@ -36,8 +35,9 @@ const AddUserPage = ({ userCurrent }) => {
     for (const key in userData) {
       formData.append(key, userData[key]);
     }
-    if (userData.picture_file) {
-      formData.append('picture_file', userData.picture_file);
+    if (!(picture_file===null)) {
+      console.log("i added image")
+      formData.append('picture_file', picture_file);
     }
 
     try {

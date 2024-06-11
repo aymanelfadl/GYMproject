@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import Logo from "../../assets/Fitflex-HD.png";
 import secondLogo from "../../assets/react.svg";
 import "./LoginForm.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 
-const LoginForm = () => {
+
+const LoginForm = ({isLogin, setLoadingUser, setUserCurrent}) => {
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate(); // Initialize useNavigate
+
+
+  useEffect(() => {
+    if (isLogin===true) {
+      navigate('/home');
+    }
+  }, [isLogin]); // Run effect whenever access token changes
+
 
 
   const handleLogin = async (e) => {
@@ -42,6 +51,9 @@ const LoginForm = () => {
         console.log("Login successful");
         console.log(data);
         localStorage.setItem("accessToken", data.data.access_token.token);
+        setUserCurrent(data.data.user)
+
+        setLoadingUser(false)
         //here i want to navigate to /home
         navigate("/home");
 

@@ -3,9 +3,11 @@ import Dashboard from "./Dashboard";
 import Header from "./Header";
 
 const Home = ({ userCurrent }) => {
+
     return (
         <div className="flex flex-col h-screen">
-            <Header/>
+            
+            <Header userName={userCurrent.name}/>
             <div className="flex flex-1 overflow-hidden">
                 <div className="bg-slate-50 w-1/5 overflow-y-auto">
                     <NavBar />
