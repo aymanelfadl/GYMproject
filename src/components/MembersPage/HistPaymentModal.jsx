@@ -6,6 +6,7 @@ const HistPaymentModal = ({ onClose, userData }) => {
   const [paymentHistData, setPaymentHistData] = useState([]);
   const [newPayment, setNewPayment] = useState(0);
   const [paymentIsHere, setPaymentIsHere] = useState(true);
+  const [newRowId, setNewRowId] = useState(null);
 
   const formatDate = (inputDate) => {
     const date = new Date(inputDate);
@@ -40,6 +41,7 @@ const HistPaymentModal = ({ onClose, userData }) => {
       });
       console.log("Payment added successfully!");
       setPaymentHistData([response.data, ...paymentHistData]); // Assuming the API returns the added payment
+      setNewRowId(response.data.id); // Set the newly added row ID
       setNewPayment(0); // Reset the input after successful addition
       setPaymentIsHere(false);
     } catch (error) {
@@ -47,6 +49,15 @@ const HistPaymentModal = ({ onClose, userData }) => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (newRowId) {
+      const timer = setTimeout(() => {
+        setNewRowId(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [newRowId]);
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -89,7 +100,7 @@ const HistPaymentModal = ({ onClose, userData }) => {
               </div>
               <h1 className="text-center font-bold">{userData.first_name}</h1>
             </div>
-            <div className="space-y-4 bg-slate-50 shadow-lg mb-6 py-4 rounded-xl">
+            <div className="space-y-4 bg-slate-50 max-h-60 overflow-y-auto shadow-lg mb-6 py-4 rounded-xl">
               {paymentIsHere ? (
                 <h2 className="text-center text-gray-400 mt-4">
                   لا توجد فواتير في الوقت الحالي
@@ -103,9 +114,12 @@ const HistPaymentModal = ({ onClose, userData }) => {
                       <th>تاريخ الدفع</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="">
                     {paymentHistData.map((item, index) => (
-                      <tr key={item.id}>
+                      <tr
+                        key={item.id}
+                        className={newRowId === item.id ? "bg-green-200" : ""}
+                      >
                         <td className="border-y-2 border-gray-200 px-4 py-2 ">
                           {index + 1}
                         </td>
