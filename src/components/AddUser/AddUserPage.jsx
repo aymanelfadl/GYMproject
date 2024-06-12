@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from 'axios'; // Import axios for making HTTP requests
+import axios from "axios";
 import Header from "../HomePage/Header";
 import NavBar from "../navBar/NavBar";
 import AddUserLogo from "../../assets/adduserwhite.png";
@@ -8,7 +8,6 @@ import UserInfo from "../../assets/userinfo.png";
 const AddUserPage = ({ userCurrent }) => {
   const [imageFile, setImageFile] = useState(null);
   const [picture_file, setPicture_file] = useState(null);
-
 
   const [userEdit, setUserEdit] = useState({
     first_name: "",
@@ -24,7 +23,7 @@ const AddUserPage = ({ userCurrent }) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageFile(reader.result);
-       setPicture_file(file);
+        setPicture_file(file);
       };
       reader.readAsDataURL(file);
     }
@@ -35,23 +34,34 @@ const AddUserPage = ({ userCurrent }) => {
     for (const key in userData) {
       formData.append(key, userData[key]);
     }
-    if (!(picture_file===null)) {
-      console.log("i added image")
-      formData.append('picture_file', picture_file);
+    if (!(picture_file === null)) {
+      console.log("i added image");
+      formData.append("picture_file", picture_file);
     }
 
     try {
-      console.log("formdata : "+formData);
-      const response = await axios.post('http://127.0.0.1:8000/api/client', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      console.log("formdata : " + formData);
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/client",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      });
+      );
       console.log(response.data);
-      alert('Client added successfully');
+      alert("Client added successfully");
+      setUserEdit({
+        first_name: "",
+        date_birth: "",
+        phone_number: "",
+        end_date: "",
+        id_user: userCurrent.id,
+      });
     } catch (error) {
-      console.error('Error adding client:', error);
-      alert('Failed to add client');
+      console.error("Error adding client:", error);
+      alert("Failed to add client");
     }
   };
 
@@ -65,7 +75,11 @@ const AddUserPage = ({ userCurrent }) => {
         <div className="flex-1 overflow-y-auto">
           <div className="bg-blue-600 text-white py-2 px-6 w-full flex flex-row-reverse items-center">
             <div className="h-10 w-10 mt-2">
-              <img src={AddUserLogo} alt="Illustrations" className="h-full w-full object-contain" />
+              <img
+                src={AddUserLogo}
+                alt="Illustrations"
+                className="h-full w-full object-contain"
+              />
             </div>
             <div className="font-bold text-white">
               <h1 className="text-2xl mr-4">إضافة عميل</h1>
@@ -76,7 +90,11 @@ const AddUserPage = ({ userCurrent }) => {
             <div className="text-right w-full flex flex-row items-center justify-center">
               <h1 className="mr-4 text-2xl font-black">المعلومات الشخصية</h1>
               <div className="h-10 w-10">
-                <img src={UserInfo} alt="Illustrations" className="h-full w-full object-contain" />
+                <img
+                  src={UserInfo}
+                  alt="Illustrations"
+                  className="h-full w-full object-contain"
+                />
               </div>
             </div>
             <div className="border-2 ml-10 border-blue-600 w-full" />
@@ -84,16 +102,24 @@ const AddUserPage = ({ userCurrent }) => {
           <div className="flex flex-row-reverse items-stretch justify-center mt-4">
             <div className="flex flex-col items-center justify-center bg-slate-50 shadow-lg mb-6 rounded-xl mx-6">
               <div className="relative w-28 h-28 mx-auto mb-4 group bg-slate-200 border-2 border-blue-200  rounded-full">
-                {imageFile && <img src={imageFile} alt="logo" className="w-full h-full rounded-full cursor-pointer group-hover:blur boder-4 border-black" />}
+                {imageFile && (
+                  <img
+                    src={imageFile}
+                    alt="logo"
+                    className="w-full h-full rounded-full cursor-pointer group-hover:blur boder-4 border-black"
+                  />
+                )}
                 <label
                   htmlFor="fileInput"
-                  className={`absolute top-8 right-9 flex items-center justify-center rounded-full w-10 h-10 rounded-full ${imageFile === null ? "opacity-100" : "opacity-0"} group-hover:opacity-100 transition-opacity cursor-pointer`}
+                  className={`absolute top-8 right-9 flex items-center justify-center w-10 h-10 rounded-full ${
+                    imageFile === null ? "opacity-100" : "opacity-0"
+                  } group-hover:opacity-100 transition-opacity cursor-pointer`}
                 >
                   <input
                     id="fileInput"
                     type="file"
                     onChange={handleImageChange}
-                    style={{ display: 'none' }}
+                    style={{ display: "none" }}
                   />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +133,9 @@ const AddUserPage = ({ userCurrent }) => {
                   </svg>
                 </label>
               </div>
-              <h1 className="text-blue-600 text-2xl font-black mx-10">إضافة صورة </h1>
+              <h1 className="text-blue-600 text-2xl font-black mx-10">
+                إضافة صورة{" "}
+              </h1>
             </div>
             <div className="space-y-4 bg-slate-50 shadow-lg mb-6 py-4 rounded-xl w-9/12">
               <div className="flex items-center justify-between mx-12">
@@ -115,6 +143,7 @@ const AddUserPage = ({ userCurrent }) => {
                   type="text"
                   className="border border-salte-400 outline-blue-600 rounded-md px-3 py-2 text-right w-3/5"
                   placeholder="الاسم الكامل"
+                  value={userEdit.first_name}
                   onChange={(e) => {
                     const fullName = e.target.value;
                     setUserEdit({
@@ -132,6 +161,7 @@ const AddUserPage = ({ userCurrent }) => {
                   type="date"
                   className="border border-gray-300 outline-blue-600 rounded-md px-3 py-2 w-3/5"
                   placeholder="تاريخ الميلاد"
+                  value={userEdit.date_birth}
                   onChange={(e) =>
                     setUserEdit({ ...userEdit, date_birth: e.target.value })
                   }
@@ -145,6 +175,7 @@ const AddUserPage = ({ userCurrent }) => {
                   type="text"
                   className="border border-gray-300 outline-blue-600 rounded-md px-3 py-2 text-right w-3/5"
                   placeholder="رقم الهاتف"
+                  value={userEdit.phone_number}
                   onChange={(e) =>
                     setUserEdit({ ...userEdit, phone_number: e.target.value })
                   }
@@ -159,6 +190,7 @@ const AddUserPage = ({ userCurrent }) => {
                   type="date"
                   className="border border-gray-300 outline-blue-600 rounded-md px-3 py-2 w-3/5"
                   placeholder="تاريخ انتهاء العضوية"
+                  value={userEdit.end_date}
                   onChange={(e) =>
                     setUserEdit({ ...userEdit, end_date: e.target.value })
                   }

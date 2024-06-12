@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import AvatareLogo from "../../assets/woman.png";
-import axios from 'axios';
+import axios from "axios";
 
 const HistPaymentModal = ({ onClose, userData }) => {
   const [paymentHistData, setPaymentHistData] = useState([]);
@@ -9,7 +9,7 @@ const HistPaymentModal = ({ onClose, userData }) => {
 
   const formatDate = (inputDate) => {
     const date = new Date(inputDate);
-    return new Intl.DateTimeFormat('en-GB').format(date);
+    return new Intl.DateTimeFormat("en-GB").format(date);
   };
 
   const handleInputChange = (event) => {
@@ -19,11 +19,13 @@ const HistPaymentModal = ({ onClose, userData }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/client/payments/${userData.id}`);
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/client/payments/${userData.id}`
+        );
         setPaymentHistData(response.data.payments);
         setPaymentIsHere(response.data.payments.length === 0);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -32,18 +34,16 @@ const HistPaymentModal = ({ onClose, userData }) => {
 
   const addPayment = async () => {
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/payment', {
+      const response = await axios.post("http://127.0.0.1:8000/api/payment", {
         paid_price: newPayment,
         id_user: userData.id,
       });
-      console.log('Payment added successfully!');
-    setPaymentHistData([response.data, ...paymentHistData]);
- // Assuming the API returns the added payment
+      console.log("Payment added successfully!");
+      setPaymentHistData([response.data, ...paymentHistData]); // Assuming the API returns the added payment
       setNewPayment(0); // Reset the input after successful addition
       setPaymentIsHere(false);
-      
     } catch (error) {
-      console.log('An error occurred while adding the payment.');
+      console.log("An error occurred while adding the payment.");
       console.error(error);
     }
   };
@@ -91,7 +91,9 @@ const HistPaymentModal = ({ onClose, userData }) => {
             </div>
             <div className="space-y-4 bg-slate-50 shadow-lg mb-6 py-4 rounded-xl">
               {paymentIsHere ? (
-                <h2 className="text-center text-gray-400 mt-4">لا توجد فواتير في الوقت الحالي</h2>
+                <h2 className="text-center text-gray-400 mt-4">
+                  لا توجد فواتير في الوقت الحالي
+                </h2>
               ) : (
                 <table className="w-11/12 mx-auto text-center shadow-lg">
                   <thead className="bg-blue-200 text-black">

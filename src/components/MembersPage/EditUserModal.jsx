@@ -1,12 +1,17 @@
 import { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 
-const EditUserModal = ({ onClose, userData, onEditUser, onEndUser, onReturnUser }) => {
+const EditUserModal = ({
+  onClose,
+  userData,
+  onEditUser,
+  onEndUser,
+  onReturnUser,
+}) => {
   const [userEdit, setUserEdit] = useState(userData);
   const [newImage, setNewImage] = useState(userData.picture_file);
   const [imageIsHere, setImageIsHere] = useState(false);
   const [newImageFile, setNewImageFile] = useState(null);
-
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -29,32 +34,37 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser, onReturnUser 
     const formData = new FormData();
 
     // Append all attributes to formData
-    formData.append('first_name', clientData.first_name);
-    formData.append('date_birth', clientData.date_birth);
-    formData.append('phone_number', clientData.phone_number);
-    formData.append('end_date', clientData.end_date);
+    formData.append("first_name", clientData.first_name);
+    formData.append("date_birth", clientData.date_birth);
+    formData.append("phone_number", clientData.phone_number);
+    formData.append("end_date", clientData.end_date);
 
-    if(imageIsHere){
-      formData.append('picture_file', newImageFile);
-
+    if (imageIsHere) {
+      formData.append("picture_file", newImageFile);
     }
 
     // Log the formData object before making the API call
 
     try {
-        const response = await axios.post(`http://127.0.0.1:8000/api/client/${clientData.id}`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-      
-        console.log('Client updated successfully', response.data);
-        onEditUser(clientData);
-    } catch (error) {
-        console.error('Error updating client:', error.response ? error.response.data : error.message);
-    }
-};
+      const response = await axios.post(
+        `http://127.0.0.1:8000/api/client/${clientData.id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
+      console.log("Client updated successfully", response.data);
+      onEditUser(clientData);
+    } catch (error) {
+      console.error(
+        "Error updating client:",
+        error.response ? error.response.data : error.message
+      );
+    }
+  };
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -95,13 +105,13 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser, onReturnUser 
               />
               <label
                 htmlFor="fileInput"
-                className="absolute top-8 right-8 flex items-center justify-center rounded-full w-10 h-10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                className="absolute top-8 right-8 flex items-center justify-center w-10 h-10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
               >
                 <input
                   id="fileInput"
                   type="file"
                   onChange={handleImageChange}
-                  style={{ display: 'none' }} 
+                  style={{ display: "none" }}
                 />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +173,7 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser, onReturnUser 
                   رقم الهاتف
                 </label>
               </div>
-            
+
               <div className="flex items-center justify-between mx-12">
                 <input
                   type="date"
@@ -182,12 +192,18 @@ const EditUserModal = ({ onClose, userData, onEditUser, onEndUser, onReturnUser 
           </div>
           <div className="px-6 py-4 bg-gray-100 flex justify-center">
             {userEdit.active === 1 ? (
-              <button className="text-white w-1/2 bg-red-500 hover:bg-red-800 px-4 py-2 rounded-full mx-10" onClick={() => onEndUser(userEdit)}>
+              <button
+                className="text-white w-1/2 bg-red-500 hover:bg-red-800 px-4 py-2 rounded-full mx-10"
+                onClick={() => onEndUser(userEdit)}
+              >
                 انهاء العضوية
               </button>
             ) : (
-              <button className="text-white w-1/2 bg-green-500 hover:bg-green-800 px-4 py-2 rounded-full mx-10" onClick={() => onReturnUser(userEdit)}>
-                إعادة العضوية 
+              <button
+                className="text-white w-1/2 bg-green-500 hover:bg-green-800 px-4 py-2 rounded-full mx-10"
+                onClick={() => onReturnUser(userEdit)}
+              >
+                إعادة العضوية
               </button>
             )}
             <button

@@ -1,50 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import NavBar from "../navBar/NavBar";
 import Header from "../HomePage/Header";
 import MambersTable from "./MambersTable";
 import MembersLogo from "../../assets/equipeWithe.png";
-import AvatareLogo from "../../assets/woman.png";
 import "./Mambers.css";
 import EditUserModal from "./EditUserModal";
 import HistPaymentModal from "./HistPaymentModal";
-import Loading from '../loading/Loading';
+import Loading from "../loading/Loading";
 
 const Home = ({ accessToken, userCurrent }) => {
+  console.log(accessToken);
 
-  console.log(accessToken)
-  
-  const [data,setData] = useState()
-  const [dataIsHere,setDataIsHere] = useState(false);
+  const [data, setData] = useState();
+  const [dataIsHere, setDataIsHere] = useState(false);
 
-   
-
-  
   useEffect(() => {
     const fetchData = async () => {
-        try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/client/bygym/${userCurrent.id}`);
-            setData(response.data.clients);
-            setDataIsHere(true);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/client/bygym/${userCurrent.id}`
+        );
+        setData(response.data.clients);
+        setDataIsHere(true);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
     if (!dataIsHere) {
-      console.log("Zz")
-        fetchData();
+      console.log("Zz");
+      fetchData();
     }
-}, [dataIsHere, userCurrent.id]);
+  }, [dataIsHere, userCurrent.id]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filterOption, setFilterOption] = useState("");
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [showEditUser, setShowEditUser] = useState(false);
-  const [showHistPayment , setShowHistPayment] = useState(false);
-  const [showAddPayment , setShowAddPayment] = useState(false);
-
-
+  const [showHistPayment, setShowHistPayment] = useState(false);
+  const [showAddPayment, setShowAddPayment] = useState(false);
 
   const handleSelectingUser = (selectedUser) => {
     setShowEditUser(true);
@@ -61,11 +56,11 @@ const Home = ({ accessToken, userCurrent }) => {
       const newData = [...data];
       newData[index] = userEdit;
       setData(newData);
-      setShowEditUser(false)
+      setShowEditUser(false);
     }
   };
 
-  const handleReturnUser = () =>{
+  const handleReturnUser = () => {
     const index = data.findIndex((user) => user.id === selectedUserData.id);
     if (index !== -1) {
       const newData = [...data];
@@ -73,27 +68,28 @@ const Home = ({ accessToken, userCurrent }) => {
       setData(newData);
       setShowEditUser(false);
     }
-  }
-
-
+  };
 
   const disactivateClient = async () => {
     try {
-      const response = await axios.post(`http://127.0.0.1:8000/api/client/disactivate/${selectedUserData.id}`);
-      console.log('Client disactivated successfully!', response.data);
+      const response = await axios.post(
+        `http://127.0.0.1:8000/api/client/disactivate/${selectedUserData.id}`
+      );
+      console.log("Client disactivated successfully!", response.data);
       handleEndUser();
-     
     } catch (error) {
-      console.error('An error occurred while disactivating the client:', error);
+      console.error("An error occurred while disactivating the client:", error);
     }
   };
   const activateClient = async () => {
     try {
-      const response = await axios.post(`http://127.0.0.1:8000/api/client/activate/${selectedUserData.id}`);
-      console.log('Client sactivated successfully!', response.data);
-      handleReturnUser();     
+      const response = await axios.post(
+        `http://127.0.0.1:8000/api/client/activate/${selectedUserData.id}`
+      );
+      console.log("Client sactivated successfully!", response.data);
+      handleReturnUser();
     } catch (error) {
-      console.error('An error occurred while disactivating the client:', error);
+      console.error("An error occurred while disactivating the client:", error);
     }
   };
 
@@ -107,66 +103,65 @@ const Home = ({ accessToken, userCurrent }) => {
     }
   };
 
-
-
-
-  const handleHistPayment = (id) =>{
-    // ilyas dir chi req dyalk 
-    // set hist payment data 
+  const handleHistPayment = (id) => {
+    // ilyas dir chi req dyalk
+    // set hist payment data
     setSelectedUserData(data.at(id));
     setShowHistPayment(true);
-  }
+  };
 
   const filterData = () => {
-    let filteredData = [...data]; 
-    
+    let filteredData = [...data];
+
     switch (filterOption) {
       case "today":
         filteredData = filteredData.filter((user) => {
-          const today = new Date().toISOString().split('T')[0];
-          const userDate = user.created_at.split('T')[0];
+          const today = new Date().toISOString().split("T")[0];
+          const userDate = user.created_at.split("T")[0];
           console.log("Today:", today);
           console.log("User created_at:", userDate);
           return user.active === 1 && userDate === today;
         });
-        break;      
+        break;
       case "one_week":
-          filteredData = filteredData.filter((user) => {
-            const today = new Date().toISOString().split('T')[0];
-            const oneWeekLater = new Date(today);
-            oneWeekLater.setDate(oneWeekLater.getDate() - 7);
-            const finalDate = oneWeekLater.toISOString().split('T')[0];
-            const userDate = user.created_at.split('T')[0]; 
-            return user.active === 1 && finalDate <= userDate && userDate <= today; 
-          });
+        filteredData = filteredData.filter((user) => {
+          const today = new Date().toISOString().split("T")[0];
+          const oneWeekLater = new Date(today);
+          oneWeekLater.setDate(oneWeekLater.getDate() - 7);
+          const finalDate = oneWeekLater.toISOString().split("T")[0];
+          const userDate = user.created_at.split("T")[0];
+          return (
+            user.active === 1 && finalDate <= userDate && userDate <= today
+          );
+        });
         break;
       case "one_month":
-          filteredData = filteredData.filter((user) => {
-            const today = new Date().toISOString().split('T')[0]; 
-            const oneMonthLater = new Date(today); 
-            oneMonthLater.setMonth(oneMonthLater.getMonth() - 1); 
-            const finaleDate = oneMonthLater.toISOString().split('T')[0]; 
-            const userDate = user.created_at.split('T')[0];
-            return user.active === 1 && finaleDate <= userDate && finaleDate <= today;
-          });
-          break;     
+        filteredData = filteredData.filter((user) => {
+          const today = new Date().toISOString().split("T")[0];
+          const oneMonthLater = new Date(today);
+          oneMonthLater.setMonth(oneMonthLater.getMonth() - 1);
+          const finaleDate = oneMonthLater.toISOString().split("T")[0];
+          const userDate = user.created_at.split("T")[0];
+          return (
+            user.active === 1 && finaleDate <= userDate && finaleDate <= today
+          );
+        });
+        break;
       case "need_to_pay":
         filteredData = filteredData.filter((user) => {
-          const today = new Date().toISOString().split('T')[0];
+          const today = new Date().toISOString().split("T")[0];
           return user.active === 1 && user.end_date < today;
         });
         break;
-      case "end_date":    
+      case "end_date":
         filteredData = filteredData.filter((user) => user.active === 0);
         break;
       default:
         filteredData = filteredData.filter((user) => user.active === 1);
     }
-    
+
     return filteredData;
   };
-  
-  
 
   return (
     <div className="flex flex-col h-screen">
@@ -185,16 +180,12 @@ const Home = ({ accessToken, userCurrent }) => {
               />
             </div>
             <div className="font-bold text-white">
-            <h1 className="text-2xl mr-4">لوحة القيادة</h1>
+              <h1 className="text-2xl mr-4">لوحة القيادة</h1>
             </div>
           </div>
           <div className="flex flex-row-reverse py-4 pr-28">
             <div className="group ml-20">
-              <svg
-                className="icon"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-              >
+              <svg className="icon" aria-hidden="true" viewBox="0 0 24 24">
                 <g>
                   <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
                 </g>
@@ -217,25 +208,25 @@ const Home = ({ accessToken, userCurrent }) => {
                 <option value="today">اليوم</option>
                 <option value="one_week">اسبوع واحد</option>
                 <option value="one_month">شهر واحد</option>
-                <option value="need_to_pay">الأعضاء الذين يحتاجون إلى الدفع</option>
+                <option value="need_to_pay">
+                  الأعضاء الذين يحتاجون إلى الدفع
+                </option>
                 <option value="end_date">الأعضاء الذين انتهت عضويتهم</option>
               </select>
             </div>
           </div>
           <div>
-            {dataIsHere ?
+            {dataIsHere ? (
               <MambersTable
-              data={filterData()}
-              searchTerm={searchTerm}
-              onEditUser={handleSelectingUser}
-              OnAddPayment={handleSelectingUserPayment}
-              onOpenHistPayment={handleHistPayment}
-            />
-            :
-            <Loading />
-}
-            
-          
+                data={filterData()}
+                searchTerm={searchTerm}
+                onEditUser={handleSelectingUser}
+                OnAddPayment={handleSelectingUserPayment}
+                onOpenHistPayment={handleHistPayment}
+              />
+            ) : (
+              <Loading />
+            )}
 
             {showEditUser && (
               <EditUserModal
@@ -248,12 +239,11 @@ const Home = ({ accessToken, userCurrent }) => {
             )}
 
             {showHistPayment && (
-              <HistPaymentModal 
+              <HistPaymentModal
                 userData={selectedUserData}
-                onClose={()=>setShowHistPayment(false)}
+                onClose={() => setShowHistPayment(false)}
               />
             )}
-         
           </div>
         </div>
       </div>
