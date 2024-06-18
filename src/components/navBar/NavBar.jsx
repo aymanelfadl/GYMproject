@@ -59,7 +59,7 @@ const NavBar = () => {
               location.pathname === "/members" ? "text-white" : "text-blue-500"
             }`}
           >
-            الأعضاء
+            سجل الزبائن
           </div>
         </NavLink>
         <NavLink
@@ -80,7 +80,7 @@ const NavBar = () => {
               location.pathname === "/add" ? "text-white" : "text-blue-500"
             }`}
           >
-            إضافة عضو جديد
+            إضافة زبون جديد
           </div>
         </NavLink>
         <NavLink
