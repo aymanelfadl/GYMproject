@@ -7,6 +7,7 @@ import AddUserPage from "./components/AddUser/AddUserPage";
 import BillingPage from "./components/billing/BillingPage";
 import axios from "axios"; // Import axios for making HTTP requests
 
+
 function App() {
   const [accessToken, setAccessToken] = useState("");
   const [userCurrent, setUserCurrent] = useState(null); // State to store user data
@@ -61,18 +62,18 @@ function App() {
         {/* Render Members route only when user data is available */}
         {loadingUser ? null : (
           <>
-            <Route path="home" element={<Home userCurrent={userCurrent} />} />
+            <Route path="home" element={<Home userCurrent={userCurrent} setLoadingUser={setLoadingUser} />} />
             <Route
               path="members"
-              element={<Members userCurrent={userCurrent} />}
+              element={<Members userCurrent={userCurrent} setLoadingUser={setLoadingUser} />}
             />
             <Route
               path="add"
-              element={<AddUserPage userCurrent={userCurrent} />}
+              element={<AddUserPage userCurrent={userCurrent} setLoadingUser={setLoadingUser} />}
             />
             <Route
               path="billing"
-              element={<BillingPage userCurrent={userCurrent} />}
+              element={<BillingPage userCurrent={userCurrent} setLoadingUser={setLoadingUser} />}
             />
           </>
         )}

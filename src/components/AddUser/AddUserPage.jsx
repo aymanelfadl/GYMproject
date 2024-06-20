@@ -5,7 +5,7 @@ import NavBar from "../navBar/NavBar";
 import AddUserLogo from "../../assets/adduserwhite.png";
 import UserInfo from "../../assets/userinfo.png";
 
-const AddUserPage = ({ userCurrent }) => {
+const AddUserPage = ({ userCurrent, setLoadingUser }) => {
   const [imageFile, setImageFile] = useState(null);
   const [picture_file, setPicture_file] = useState(null);
 
@@ -14,6 +14,7 @@ const AddUserPage = ({ userCurrent }) => {
     date_birth: "",
     phone_number: "",
     end_date: "",
+    paid_price: "",
     id_user: userCurrent.id,
   });
 
@@ -70,7 +71,7 @@ const AddUserPage = ({ userCurrent }) => {
       <Header userName={userCurrent.name} />
       <div className="flex flex-1 overflow-hidden">
         <div className="bg-slate-50 w-1/5 overflow-y-auto">
-          <NavBar />
+          <NavBar setLoadingUser={setLoadingUser} />
         </div>
         <div className="flex-1 overflow-y-auto">
           <div className="bg-blue-600 text-white py-2 px-6 w-full flex flex-row-reverse items-center">
@@ -182,6 +183,20 @@ const AddUserPage = ({ userCurrent }) => {
                 />
                 <label className="text-lg font-bold text-blue-600">
                   :رقم الهاتف
+                </label>
+              </div>
+              <div className="flex items-center justify-between mx-12">
+                <input
+                  type="text"
+                  className="border border-gray-300 outline-blue-600 rounded-md px-3 py-2 text-right w-3/5"
+                  placeholder="المبلغ المؤدى من الزبون"
+                  value={userEdit.paid_price}
+                  onChange={(e) =>
+                    setUserEdit({ ...userEdit, paid_price: e.target.value })
+                  }
+                />
+                <label className="text-lg font-bold text-blue-600">
+                :المبلغ المؤدى من الزبون 
                 </label>
               </div>
               {/* Remove the subscription amount input field for now */}
